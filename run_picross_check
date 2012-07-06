@@ -1,0 +1,17 @@
+#!/bin/sh
+./run_pbnsolve ../../PicrossHD/Puzzles/Puzzles\ Puzzle\ Pack/Puzzles.xml
+./run_pbnsolve ../../PicrossHD/Puzzles/Halloween\ Puzzle\ Pack/Halloween.xml 
+./run_pbnsolve ../../PicrossHD/Puzzles/Pirates\ Puzzle\ Pack/Pirates.xml 
+./run_pbnsolve ../../PicrossHD/Puzzles/Zoo\ Puzzle\ Pack/Zoo.xml 
+./run_pbnsolve ../../PicrossHD/Puzzles/Animals\ Puzzle\ Pack/Animals.xml 
+./run_pbnsolve ../../PicrossHD/Puzzles/Army\ Puzzle\ Pack/Army.xml 
+./run_pbnsolve ../../PicrossHD/Puzzles/Christmas\ Puzzle\ Pack/Christmas.xml 
+./run_pbnsolve ../../PicrossHD/Puzzles/Thanksgiving\ Puzzle\ Pack/Thanksgiving.xml 
+./run_pbnsolve ../../PicrossHD/Puzzles/Winter\ Puzzle\ Pack/Winter.xml 
+./run_pbnsolve ../../PicrossHD/Puzzles/Food\ Puzzle\ Pack/Food.xml 
+./run_pbnsolve ../../PicrossHD/Puzzles/Machines\ Puzzle\ Pack/Machines.xml
+./run_pbnsolve ../../PicrossHD/Puzzles/Medieval\ Puzzle\ Pack/Medieval.xml 
+./run_pbnsolve ../../PicrossHD/Puzzles/People\ Puzzle\ Pack/People.xml 
+./run_pbnsolve ../../PicrossHD/Puzzles/Spring\ Puzzle\ Pack/Spring.xml 
+./run_pbnsolve ../../PicrossHD/Puzzles/Valentines\ Puzzle\ Pack/Valentines.xml 
+./run_pbnsolve ../../PicrossHD/Puzzles/WizardOfOz\ Puzzle\ Pack/Wizard\ of\ Oz.xml 

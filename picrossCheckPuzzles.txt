@@ -1,0 +1,466 @@
+-- Start ../../PicrossHD/Puzzles/Puzzles Puzzle Pack/Puzzles.xml --
+unique logical  	 SamplerA01Diamond
+unique logical  	 SamplerA02Checker
+trivial unique logical  	 SamplerA03Slingshot
+unique logical  	 SamplerA04House
+trivial unique logical  	 SamplerA05Add
+trivial unique logical  	 SamplerA06Cell
+unique logical  	 SamplerA07Heart
+unique logical  	 SamplerA08Note
+unique logical  	 SamplerA09Moon
+unique logical  	 SamplerB01Candle
+trivial unique logical  	 SamplerB02Info
+unique logical  	 SamplerB03Battery
+unique logical  	 SamplerB04Point
+unique logical  	 SamplerB05Trash
+unique logical  	 SamplerB06Couple
+unique logical  	 SamplerB07Scale
+unique logical  	 SamplerB08Mailbox
+unique logical  	 SamplerB09Rose
+unique logical  	 SamplerB10Heart
+unique logical  	 SamplerB11Elephant
+unique  	 SamplerB12EvilGrin
+unique logical  	 SamplerB13Apple
+unique logical  	 SamplerB14Pineapple
+unique logical  	 SamplerB15Strawberry
+unique logical  	 SamplerB16Pear
+unique logical  	 SamplerB17Cherry
+unique logical  	 SamplerB18Banana
+unique logical  	 SamplerB19Corn
+unique logical  	 SamplerB20Grapes
+unique logical  	 SamplerB21Carrot
+unique logical  	 SamplerB22Pencil
+unique logical  	 SamplerC51Pot
+unique logical  	 SamplerC52Hungry
+unique  	 SamplerC53Eye
+unique  	 SamplerD71Dinner
+unique logical  	 SamplerD72YinYang
+unique logical  	 SamplerE00Music
+multiple  	 SamplerE01Island
+unique logical  	 SamplerE02Swan
+unique  	 SamplerE03ScubaDiver
+multiple  	 SamplerE04PirateShip
+multiple  	 SamplerE05Night
+-- end ../../PicrossHD/Puzzles/Puzzles Puzzle Pack/Puzzles.xml --
+-- Start ../../PicrossHD/Puzzles/Halloween Puzzle Pack/Halloween.xml --
+unique logical  	 HalloweenA00Zombie
+trivial unique logical  	 HalloweenA01Skull
+unique logical  	 HalloweenA02WitchHat
+unique logical  	 HalloweenA03Tombstone
+unique logical  	 HalloweenA04Candle
+trivial unique logical  	 HalloweenA05Cider
+unique logical  	 HalloweenB00Owl
+trivial unique logical  	 HalloweenB01Spiderweb
+unique logical  	 HalloweenB02Carving
+unique logical  	 HalloweenB03Spider
+unique logical  	 HalloweenB04Candybag
+unique logical  	 HalloweenB05HatWand
+multiple  	 HalloweenB06Mummy
+unique logical  	 HalloweenB07Gargoyle
+unique logical  	 HalloweenC00Pumpkin
+unique logical  	 HalloweenC01Ghost
+unique logical  	 HalloweenC02Bats
+unique logical  	 HalloweenC03Howl
+unique logical  	 HalloweenC04Devil
+unique logical  	 HalloweenC05SwmpThing
+unique logical  	 HalloweenC06Headless
+unique logical  	 HalloweenC07Reaper
+unique logical  	 HalloweenC08Cat
+unique logical  	 HalloweenC09Scarytree
+unique logical  	 HalloweenD00HauntedHouse
+unique logical  	 HalloweenD01Witch
+multiple  	 HalloweenD02Cauldron
+-- end ../../PicrossHD/Puzzles/Halloween Puzzle Pack/Halloween.xml --
+-- Start ../../PicrossHD/Puzzles/Pirates Puzzle Pack/Pirates.xml --
+unique logical  	 PiratesA00FishHook
+unique logical  	 PiratesA01FootPrint
+unique logical  	 PiratesA02Anchor
+unique logical  	 PiratesA03Key
+unique logical  	 PiratesA04HookHand
+unique logical  	 PiratesA05Raft
+unique logical  	 PiratesB00Globe
+unique logical  	 PiratesB01CrowNest
+unique logical  	 PiratesB02Patch
+unique logical  	 PiratesB03ShipBell
+unique  	 PiratesB04Chest
+unique logical  	 PiratesB05Sloop
+unique logical  	 PiratesB06Sextant
+unique logical  	 PiratesB_Griddlers1_40326
+unique logical  	 PiratesB_Griddlers_40372
+unique logical  	 PiratesC00Kraken
+unique logical  	 PiratesC01Pistol
+unique logical  	 PiratesC02Pegleg
+unique logical  	 PiratesC03Crossbone
+unique logical  	 PiratesC04PirateHat
+unique logical  	 PiratesC05Brigantine
+unique logical  	 PiratesC06Cannon
+unique logical  	 PiratesC07Parrot
+unique logical  	 PiratesC08Swords
+unique logical  	 PiratesC09Blunderbus
+unique logical  	 PiratesD00Pirate
+unique logical  	 PiratesD_Griddlers1_30003
+unique logical  	 PiratesD_Griddlers1_30024
+unique  	 PiratesE00Port
+unique logical  	 PiratesE01SailBoat
+unique logical  	 PiratesE02TreasureMap
+multiple  	 PiratesE03Pirateship
+-- end ../../PicrossHD/Puzzles/Pirates Puzzle Pack/Pirates.xml --
+-- Start ../../PicrossHD/Puzzles/Zoo Puzzle Pack/Zoo.xml --
+unique logical  	 ZooA00Duck
+unique logical  	 ZooB00Dolphin
+multiple  	 ZooB01Bug
+unique logical  	 ZooB02Duck
+multiple  	 ZooB03Cat
+unique logical  	 ZooB04Camel
+unique logical  	 ZooB05Seagull
+multiple  	 ZooB06Crab
+unique logical  	 ZooB07Deer
+unique logical  	 ZooB_Griddlers_40383
+multiple  	 ZooC00Shark
+unique  	 ZooC01Ducks
+unique logical  	 ZooC_Griddlers_40413
+multiple  	 ZooD00Butterfly
+unique logical  	 ZooD01Turtle
+unique logical  	 ZooD02Lion
+unique logical  	 ZooD03Elephant
+unique logical  	 ZooD04Zebra
+unique logical  	 ZooD05Giraffe
+unique logical  	 ZooD06Flamingo
+unique logical  	 ZooD07Bison
+unique  	 ZooD08Piggy
+multiple  	 ZooD09Hippo
+multiple  	 ZooD10Rino
+multiple  	 ZooD11Kangaroo
+unique logical  	 ZooD12Ostrage
+unique logical  	 ZooD13Cheetah
+unique logical  	 ZooD_Griddlers_20159
+-- end ../../PicrossHD/Puzzles/Zoo Puzzle Pack/Zoo.xml --
+-- Start ../../PicrossHD/Puzzles/Animals Puzzle Pack/Animals.xml --
+unique logical  	 AnimalsA01Vulture
+unique logical  	 AnimalsA02Fly
+unique logical  	 AnimalsA03Poodle
+unique logical  	 AnimalsA04Fish
+unique logical  	 AnimalsB01Mouse
+unique logical  	 AnimalsB02Frog
+unique  	 AnimalsB03Fish
+unique logical  	 AnimalsB_Griddlers_40367
+unique logical  	 AnimalsB_Griddlers_40370
+unique logical  	 AnimalsB_Griddlers_40390
+unique logical  	 AnimalsC01Turtle
+unique logical  	 AnimalsC02Dog pile
+unique logical  	 AnimalsC_Griddlers_30031
+unique logical  	 AnimalsC_Griddlers_30046
+unique logical  	 AnimalsC_Griddlers_30048
+unique logical  	 AnimalsC_Griddlers_30049
+unique logical  	 AnimalsC_Griddlers_30062
+unique logical  	 AnimalsC_Griddlers_40406
+unique logical  	 AnimalsC_Griddlers_40408
+unique logical  	 AnimalsC_Griddlers_40417
+multiple  	 AnimalsD01Puzzle
+unique logical  	 AnimalsD02Lizard
+unique logical  	 AnimalsD03Gold Fish
+unique  	 AnimalsD04Parrot
+unique logical  	 AnimalsD05Hamster
+unique logical  	 AnimalsD06Puppy
+unique logical  	 AnimalsD07Bird
+unique logical  	 AnimalsD08Kitty Face
+unique logical  	 AnimalsD_Griddlers_20028
+unique logical  	 AnimalsD_Griddlers_20101
+unique logical  	 AnimalsE01Elephant
+unique logical  	 AnimalsE02Puppy
+-- end ../../PicrossHD/Puzzles/Animals Puzzle Pack/Animals.xml --
+-- Start ../../PicrossHD/Puzzles/Army Puzzle Pack/Army.xml --
+trivial unique logical  	 ArmyA01First Aid
+unique logical  	 ArmyA02Arrow
+trivial unique logical  	 ArmyA03Tire
+unique  	 ArmyA04Private
+unique logical  	 ArmyA05Boot
+trivial unique logical  	 ArmyA06Road
+unique logical  	 ArmyB01Tent
+unique logical  	 ArmyB02Axe
+unique logical  	 ArmyB03Mortor
+unique logical  	 ArmyB04Sargent
+unique logical  	 ArmyC01Ammo Box
+unique logical  	 ArmyC02Hummer
+multiple  	 ArmyC03Saber
+unique logical  	 ArmyC04Hovercraft
+unique logical  	 ArmyC05Hole
+unique logical  	 ArmyC_Griddlers_40401
+unique logical  	 ArmyC_Griddlers_40410
+unique logical  	 ArmyD01Jeep
+multiple  	 ArmyD02ATV
+unique logical  	 ArmyD03Grenade
+multiple  	 ArmyD04Choppa
+unique logical  	 ArmyD05Shoot
+unique logical  	 ArmyD06Boom
+unique logical  	 ArmyE01Tank
+-- end ../../PicrossHD/Puzzles/Army Puzzle Pack/Army.xml --
+-- Start ../../PicrossHD/Puzzles/Christmas Puzzle Pack/Christmas.xml --
+unique logical  	 ChristmasA01Ornament
+unique logical  	 ChristmasA02Tree Topper
+unique  	 ChristmasA03Reindeer
+trivial unique logical  	 ChristmasA04Chimney
+unique logical  	 ChristmasA05Mailbox
+trivial unique logical  	 ChristmasA06Present
+unique logical  	 ChristmasB_Griddlers1_40323
+unique logical  	 ChristmasB_Griddlers_40386
+unique logical  	 ChristmasD01Wreath
+multiple  	 ChristmasD02Bell
+unique logical  	 ChristmasD03Santa
+unique logical  	 ChristmasD04Candy
+unique logical  	 ChristmasD05Present
+unique logical  	 ChristmasD06Stocking
+multiple  	 ChristmasD07Drum
+unique logical  	 ChristmasD08Candy cane
+multiple  	 ChristmasD09Angel
+multiple  	 ChristmasD10Star
+multiple  	 ChristmasD11Stocking
+unique logical  	 ChristmasD12Tree
+multiple  	 ChristmasD13Bulb
+unique logical  	 ChristmasD14Present
+unique logical  	 ChristmasD15Ginerbread
+multiple  	 ChristmasD16Deer
+unique logical  	 ChristmasD17Angel
+multiple  	 ChristmasE01Bow1
+multiple  	 ChristmasE02Elf
+multiple  	 ChristmasE03Santa1
+multiple  	 ChristmasE04Bow
+multiple  	 ChristmasE05Rudolph
+unique logical  	 ChristmasE06Christmas Tree
+unique logical  	 ChristmasE07Sleigh
+-- end ../../PicrossHD/Puzzles/Christmas Puzzle Pack/Christmas.xml --
+-- Start ../../PicrossHD/Puzzles/Thanksgiving Puzzle Pack/Thanksgiving.xml --
+unique logical  	 ThanksgivingA01Turkey
+unique logical  	 ThanksgivingB01Acorn
+unique logical  	 ThanksgivingB02Goal
+unique logical  	 ThanksgivingB03Corn
+unique logical  	 ThanksgivingB04Apple
+unique logical  	 ThanksgivingB05Helmet
+unique logical  	 ThanksgivingB06Leaf
+unique logical  	 ThanksgivingD01Cornucopia
+unique logical  	 ThanksgivingD02Pilgrim Boy
+multiple  	 ThanksgivingD03Pilgrim Girl
+multiple  	 ThanksgivingD04Indian
+unique logical  	 ThanksgivingE01Turkey
+unique logical  	 ThanksgivingE02Pie slice
+unique logical  	 ThanksgivingE03Pumpkin
+unique  	 ThanksgivingE04Pie
+unique logical  	 ThanksgivingE05Pilgrim hat
+unique logical  	 ThanksgivingE06Apple tree
+-- end ../../PicrossHD/Puzzles/Thanksgiving Puzzle Pack/Thanksgiving.xml --
+-- Start ../../PicrossHD/Puzzles/Winter Puzzle Pack/Winter.xml --
+unique  	 WinterA01Frosty
+unique logical  	 WinterA02Evergreen
+unique logical  	 WinterB01Snowman
+unique logical  	 WinterB02Mountains
+unique logical  	 WinterD01Snowflake
+unique logical  	 WinterD02Mitten
+unique logical  	 WinterD03Forest
+multiple  	 WinterD04Frosty
+unique logical  	 WinterD05Snowman
+unique logical  	 WinterD06Gingerbread
+unique logical  	 WinterD07Dreidel
+multiple  	 WinterE01Sleigh
+unique logical  	 WinterE01Snowflake
+unique logical  	 WinterE02Reindeer
+unique logical  	 WinterE03Menorah
+unique logical  	 WinterE04Skier
+multiple  	 WinterE05Tree
+unique logical  	 WinterE06Leaf
+unique logical  	 WinterE07Ski Lift
+unique logical  	 WinterE08Snowman
+unique logical  	 WinterE09Hockey Skate
+unique logical  	 WinterE10Mitten
+unique logical  	 WinterE11Figure Skate
+-- end ../../PicrossHD/Puzzles/Winter Puzzle Pack/Winter.xml --
+-- Start ../../PicrossHD/Puzzles/Food Puzzle Pack/Food.xml --
+unique logical  	 FoodA01Cherry
+unique logical  	 FoodA02Cocktail
+multiple  	 FoodA03Peanut
+unique logical  	 FoodB01Hamburger
+unique logical  	 FoodB02Wine glass
+unique logical  	 FoodB03Drink
+unique logical  	 FoodB04Soup bowl
+unique logical  	 FoodC01Pizza slice
+unique logical  	 FoodC02Salt Pepper
+unique logical  	 FoodC03Fried egg
+unique logical  	 FoodC04Dinner plate
+unique logical  	 FoodC05Dinner
+unique logical  	 FoodC_Griddlers_40411
+unique logical  	 FoodD01Pizza
+unique logical  	 FoodD02Popcorn
+unique logical  	 FoodD03Fries
+unique logical  	 FoodD04Fish
+unique logical  	 FoodD05Martini
+unique logical  	 FoodD06Cupcake
+unique logical  	 FoodD07Noodles
+multiple  	 FoodE01Lobster
+unique logical  	 FoodE02Crab
+unique logical  	 FoodE03Hot dog
+unique logical  	 FoodE04Soup's on
+unique logical  	 FoodE05Steak
+-- end ../../PicrossHD/Puzzles/Food Puzzle Pack/Food.xml --
+-- Start ../../PicrossHD/Puzzles/Machines Puzzle Pack/Machines.xml --
+trivial unique logical  	 MachinesA01Hex nut
+trivial unique logical  	 MachinesA02Bolt
+unique logical  	 MachinesA03Hammer
+unique logical  	 MachinesB_Griddlers1_40304
+unique logical  	 MachinesB_Griddlers1_40313
+unique logical  	 MachinesC_Griddlers1_30009
+unique logical  	 MachinesC_Griddlers1_30026
+unique logical  	 MachinesC_Griddlers1_40341
+unique logical  	 MachinesC_Griddlers1_40342
+unique logical  	 MachinesC_Griddlers1_40351
+unique logical  	 MachinesC_Griddlers1_40352
+unique logical  	 MachinesC_Griddlers1_40354
+unique logical  	 MachinesC_Griddlers1_40360
+unique logical  	 MachinesD01Blowdryer
+unique logical  	 MachinesD02Mixer
+unique logical  	 MachinesD03Vacuum
+trivial unique logical  	 MachinesD04Washer
+unique logical  	 MachinesD05Blender
+unique logical  	 MachinesD_Griddlers1_20027
+unique logical  	 MachinesD_Griddlers1_20616
+unique logical  	 MachinesD_Griddlers_20165
+unique logical  	 MachinesD_Griddlers_20175
+unique logical  	 MachinesE01Tractor
+unique logical  	 MachinesE02Bike
+unique logical  	 MachinesE03Truck
+unique logical  	 MachinesE04Slug bug
+unique logical  	 MachinesE05Cement truck
+unique logical  	 MachinesE06Motorcycle
+unique logical  	 MachinesE07Lawnmower
+-- end ../../PicrossHD/Puzzles/Machines Puzzle Pack/Machines.xml --
+-- Start ../../PicrossHD/Puzzles/Medieval Puzzle Pack/Medieval.xml --
+trivial unique logical  	 MedievalA01Shield
+unique logical  	 MedievalA02Princess
+unique logical  	 MedievalA03Sword
+unique logical  	 MedievalB01Horn
+unique logical  	 MedievalB02Goblet
+unique logical  	 MedievalB_Griddlers1_40316
+unique logical  	 MedievalB_Griddlers1_40317
+unique logical  	 MedievalC_Griddlers1_40348
+unique logical  	 MedievalD01Robin Hood
+unique logical  	 MedievalD02Merlin
+unique logical  	 MedievalD03Weapon
+unique logical  	 MedievalD04Queen
+unique logical  	 MedievalD05Unicorn
+unique logical  	 MedievalD06Princess
+unique logical  	 MedievalD07Sword
+unique logical  	 MedievalD08Princess
+unique logical  	 MedievalD09Prince
+unique logical  	 MedievalD10Shield
+unique logical  	 MedievalD11King
+unique logical  	 MedievalD_Griddlers1_20172
+unique logical  	 MedievalD_Griddlers1_20232
+unique logical  	 MedievalD_Griddlers1_30007
+unique logical  	 MedievalD_Griddlers1_30025
+unique logical  	 MedievalE01Dragon
+unique logical  	 MedievalE02Joust
+unique logical  	 MedievalE03Trumpet
+unique logical  	 MedievalE04Fairy
+unique logical  	 MedievalE05Crown
+unique logical  	 MedievalE06Castle
+unique logical  	 MedievalE07Turret
+unique logical  	 MedievalE08Pegasus
+-- end ../../PicrossHD/Puzzles/Medieval Puzzle Pack/Medieval.xml --
+-- Start ../../PicrossHD/Puzzles/People Puzzle Pack/People.xml --
+unique  	 PeopleA01Smile
+trivial unique logical  	 PeopleA02Face
+unique logical  	 PeopleB01Sad face
+unique logical  	 PeopleB02Smiley
+unique logical  	 PeopleB_Griddlers1_40306
+unique logical  	 PeopleB_Griddlers_30040
+unique logical  	 PeopleB_Griddlers_40387
+unique logical  	 PeopleC01Karaoke
+unique logical  	 PeopleC02Graduate
+unique logical  	 PeopleD01Handstand
+unique logical  	 PeopleD02Backpacking
+unique  	 PeopleD03Soccer
+unique logical  	 PeopleD04Mom
+multiple  	 PeopleD05Golfer
+unique logical  	 PeopleD06Beach
+unique logical  	 PeopleD07Baby
+unique logical  	 PeopleD08Cop
+unique logical  	 PeopleD09Skateboard
+unique logical  	 PeopleE01Falling
+unique logical  	 PeopleE02Running
+unique  	 PeopleE03Exercising
+unique logical  	 PeopleE04Teeter toter
+unique logical  	 PeopleE05Superman
+unique logical  	 PeopleE06Man woman
+unique logical  	 PeopleE07Swimming
+multiple  	 PeopleE08Shoveling
+unique logical  	 PeopleE09Tent
+unique logical  	 PeopleE10Reading
+unique logical  	 PeopleE11Biking
+-- end ../../PicrossHD/Puzzles/People Puzzle Pack/People.xml --
+-- Start ../../PicrossHD/Puzzles/Spring Puzzle Pack/Spring.xml --
+unique logical  	 Spring4D_Griddlers_20154
+unique logical  	 Spring4D_Griddlers_20157
+trivial unique logical  	 SpringA014 leaf clover
+unique logical  	 SpringA02Rain drop
+trivial unique logical  	 SpringA03Tulip
+unique logical  	 SpringB01Plant Buds
+unique logical  	 SpringB02Easter egg
+unique logical  	 SpringB03Bunny
+multiple  	 SpringB04Planting
+unique logical  	 SpringB_Griddlers1_40305
+unique logical  	 SpringB_Griddlers1_40312
+multiple  	 SpringD01Flower
+multiple  	 SpringE01Pot of gold
+unique logical  	 SpringE02Rain Boot
+unique  	 SpringE03April showers
+unique logical  	 SpringE04Hatch
+unique logical  	 SpringE05Butterfly
+unique logical  	 SpringE06Fat bunny
+unique logical  	 SpringE07Budding tree
+unique logical  	 SpringE08Watering can
+-- end ../../PicrossHD/Puzzles/Spring Puzzle Pack/Spring.xml --
+-- Start ../../PicrossHD/Puzzles/Valentines Puzzle Pack/Valentines.xml --
+trivial unique logical  	 ValentinesA01Valentine
+trivial unique logical  	 ValentinesA02Hershey Kiss
+trivial unique logical  	 ValentinesA03Lips
+unique logical  	 ValentinesB01Candy box
+unique logical  	 ValentinesB02Diamond
+unique logical  	 ValentinesB03Flower
+unique logical  	 ValentinesB04Teddy bear
+unique logical  	 ValentinesB05Daisy
+unique logical  	 ValentinesB06Heartbroken
+unique logical  	 ValentinesB_Griddlers1_40307
+unique logical  	 ValentinesB_Griddlers1_40337
+unique  	 ValentinesC01BowAndArrow
+unique logical  	 ValentinesC_Griddlers_30041
+unique logical  	 ValentinesC_Griddlers_30043
+unique logical  	 ValentinesC_Griddlers_30054
+unique logical  	 ValentinesD01Ring
+unique logical  	 ValentinesD_Griddlers_20164
+unique logical  	 ValentinesE01Cupid
+unique logical  	 ValentinesE01True love
+unique logical  	 ValentinesE02Heartshot
+unique logical  	 ValentinesE02Stuffed animal
+unique logical  	 ValentinesE03Heart doily
+unique logical  	 ValentinesE03Valentine candy
+unique logical  	 ValentinesE04First date
+unique logical  	 ValentinesE04Lovestruck
+multiple  	 ValentinesE05Teddy bear
+-- end ../../PicrossHD/Puzzles/Valentines Puzzle Pack/Valentines.xml --
+-- Start ../../PicrossHD/Puzzles/WizardOfOz Puzzle Pack/Wizard of Oz.xml --
+unique logical  	 Wizard of OzA01House
+trivial unique logical  	 Wizard of OzA02Water Pail
+unique logical  	 Wizard of OzA03Twister
+multiple  	 Wizard of OzA04Broom
+unique logical  	 Wizard of OzA05Witchs hat
+unique logical  	 Wizard of OzA06Toto
+multiple  	 Wizard of OzD01Witch
+unique logical  	 Wizard of OzD02House
+unique logical  	 Wizard of OzD03Tinman
+unique logical  	 Wizard of OzD04Wizard
+unique logical  	 Wizard of OzD05Toto
+unique logical  	 Wizard of OzD06Scarecrow
+unique logical  	 Wizard of OzE01YBR
+unique  	 Wizard of OzE02Dorthy
+unique logical  	 Wizard of OzE03Flying witch
+unique logical  	 Wizard of OzE04Flying Monkey
+multiple  	 Wizard of OzE05Lion
+-- end ../../PicrossHD/Puzzles/WizardOfOz Puzzle Pack/Wizard of Oz.xml --

@@ -1,0 +1,93 @@
+<puzzleset>
+
+<puzzle type="grid" defaultcolor="black">
+
+<source>webpbn.com</source>
+<id>#1</id>
+<title>Sample Puzzle</title>
+<author>Jan Wolter</author>
+<authorid>jan</authorid>
+<description>
+A dancing stick figure man.
+</description>
+
+<color name="white" char=".">fff</color>
+<color name="black" char="X">000</color>
+
+<solution type="goal">
+<image>
+|.XX..|
+|.XX.X|
+|..X.X|
+|.XXX.|
+|X.X..|
+|X.X..|
+|..XX.|
+|.X.X.|
+|.X.XX|
+|XX...|
+</image>
+</solution>
+</puzzle>
+
+<puzzle type="grid" defaultcolor="black">
+
+<source>webpbn.com</source>
+<id>#2</id>
+<title>Sample Puzzle</title>
+<author>Jan Wolter</author>
+<authorid>jan</authorid>
+<description>
+A dancing stick figure man.
+</description>
+
+<color name="white" char=".">fff</color>
+<color name="black" char="X">000</color>
+
+<solution type="goal">
+<image>
+|.XX..|
+|.XX.X|
+|..X.X|
+|.XXX.|
+|X.X..|
+|X.X..|
+|..XX.|
+|.X.X.|
+|.X.XX|
+|XX...|
+</image>
+</solution>
+</puzzle>
+
+<puzzle type="grid" defaultcolor="black">
+
+<source>webpbn.com</source>
+<id>#3</id>
+<title>Sample Puzzle</title>
+<author>Jan Wolter</author>
+<authorid>jan</authorid>
+<description>
+A dancing stick figure man.
+</description>
+
+<color name="white" char=".">fff</color>
+<color name="black" char="X">000</color>
+
+<solution type="goal">
+<image>
+|.XX..|
+|.XX.X|
+|..X.X|
+|.XXX.|
+|X.X..|
+|X.X..|
+|..XX.|
+|.X.X.|
+|.X.XX|
+|XX...|
+</image>
+</solution>
+</puzzle>
+
+</puzzleset>
