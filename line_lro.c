@@ -581,7 +581,7 @@ line_t *left_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
 		     * cover it, so we backtrack.
 		     */
 		    if (D)
-			printf("L: BACKTRACKING ON WRONG COLOR\n",pos[b]);
+			printf("L: BACKTRACKING ON WRONG COLOR %d\n",pos[b]);
 		    j= pos[b];
 		    while (b > 1 && !may_be(cell[j], clue->color[b-1]))
 			b--;
@@ -719,7 +719,7 @@ line_t *left_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
 	    if (backtracking && cov[b] == -1)
 	    {
 		if (D)
-		    printf("L: BACKTRACK BLOCK COVERS NOTHING\n",cov[b]);
+		    printf("L: BACKTRACK BLOCK COVERS NOTHING %d\n",cov[b]);
 		backtracking= 0;
 		state= ADVANCEBLOCK; goto next;
 	    }
@@ -1071,7 +1071,7 @@ line_t *right_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
 		     * cover it, so we backtrack.
 		     */
 		    if (D)
-			printf("L: BACKTRACKING ON WRONG COLOR\n",pos[b]);
+			printf("L: BACKTRACKING ON WRONG COLOR %d\n",pos[b]);
 		    j= pos[b];
 		    while (b < maxblock-1 && !may_be(cell[j], clue->color[b+1]))
 			b++;
@@ -1209,7 +1209,7 @@ line_t *right_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
 	    if (backtracking && cov[b] == -1)
 	    {
 		if (D)
-		    printf("L: BACKTRACK BLOCK COVERS NOTHING\n",cov[b]);
+		    printf("L: BACKTRACK BLOCK COVERS NOTHING %d\n",cov[b]);
 		backtracking= 0;
 		state= ADVANCEBLOCK; goto next;
 	    }
@@ -1415,7 +1415,7 @@ bit_type *lro_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i)
 
     if (D)
     {
-	line_t i;
+	//line_t i;
 
 	printf("L: LEFT  SOLUTION: ");
 	dump_pos(stdout, left, clue->length);
@@ -1506,7 +1506,7 @@ int apply_lro(Puzzle *puz, Solution *sol, dir_t k, line_t i, int depth)
     Cell **cell= sol->line[k][i];
     line_t j;
     color_t z;
-    bit_type new, *old;
+    bit_type new; //, *old;
     int newsol= 0;
 
     if ((VC && VV) && depth > 0)

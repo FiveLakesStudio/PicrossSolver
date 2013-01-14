@@ -113,9 +113,10 @@ void merge_guess()
 
 void merge_set(Puzzle *puz, Cell *cell, bit_type *bit)
 {
-    MergeElem *m, *p;
-    color_t z;
-    int zero;
+    MergeElem *m;
+//    MergeElem *p;
+//    color_t z;
+//    int zero;
 
     /* Get the merge element for this cell */
     m= &mergegrid[cell->id];
@@ -220,7 +221,7 @@ void merge_set(Puzzle *puz, Cell *cell, bit_type *bit)
 int merge_check(Puzzle *puz, Solution *sol)
 {
     MergeElem *m;
-    dir_t z;
+    //dir_t z;
     int found= 0;
 
     for (m= merge_list; m != NULL; m= m->next)

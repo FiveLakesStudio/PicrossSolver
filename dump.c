@@ -125,7 +125,7 @@ void print_coord(FILE *fp, Puzzle *puz, Cell *cell)
 
 void dump_solution(FILE *fp, Puzzle *puz, Solution *sol, int once)
 {
-    Cell *cell;
+    //Cell *cell;
     dir_t k;
     line_t i;
     dir_t max= once ? 1 : sol->nset;
@@ -226,7 +226,7 @@ void dump_puzzle(FILE *fp, Puzzle *puz)
     	if (sl->note != NULL)
 	{
 	    fputs("  NOTE:\n    ",fp);
-	    for (p= sl->note; *p != '\0'; *p++)
+	    for (p= sl->note; *p != '\0'; p++)
 	    {
 		fputc(*p, fp);
 	        if (*p == '\n') fputs("    ",fp);

@@ -24,7 +24,7 @@ void fbit_init(int n)
 {
     if (n > fbit_n)
     {
-	printf("Number of colors cannot exceed %d\n"
+	printf("Number of colors cannot exceed %ld\n"
 	    "Recompile with LIMITCOLORS off to remove this limitation\n",
 	    fbit_n);
 	exit(1);

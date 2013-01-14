@@ -176,7 +176,7 @@ extern int fbit_size;
 	 * clear bits 0..N in string Name
 	 */
 #define	bit_clearall(Name, N) \
-	{	register _bit_i; \
+	{	int register _bit_i; \
 		for (_bit_i = bit_size(N)-1; _bit_i >= 0; _bit_i--) \
 			Name[_bit_i]=_bit_0s; \
 	}

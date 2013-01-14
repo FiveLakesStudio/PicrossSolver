@@ -155,7 +155,7 @@ void empty_hash(LineHash *hash)
     }
     else
 	memset(hash->hash, 0, hash->nslots * hash->esize);
-    if (VH) printf("H: New hash size=%d\n",hash->nslots);
+    if (VH) printf("H: New hash size=%ld\n",hash->nslots);
     cache_flush++;
 }
 
@@ -435,7 +435,7 @@ void add_cache(Puzzle *puz, Solution *sol, dir_t k, line_t i)
 	rev_compress_line(puz, sol, k, i, ncell, newstate(cache[k],e));
     if (VH)
     {
-	printf("H: added in slot %d:\n", cache[k]->lastslot);
+	printf("H: added in slot %ld:\n", cache[k]->lastslot);
 	printf("   clue id:  %d\n", clueid(e));
 	printf("   old state:  ");
 	dump_comp(oldstate(e), ncell, puz->ncolor);
@@ -587,9 +587,9 @@ void uncompress_line(bit_type *in, int ncell, int ncolor, bit_type *out)
 	}
 	else
 	{
-	    b[z]= ((in[bi] << (ncolor - bn)) |
-		   (in[++bi] >> (_bit_intsiz - ncolor + bn))
-		   & bit_zeroone(ncolor));
+	    b[z]= (((in[bi]   << (ncolor - bn)) |
+		       (in[++bi] >> (_bit_intsiz - ncolor + bn)))
+              & bit_zeroone(ncolor));
 	    bn+= _bit_intsiz - ncolor;
 	}
     }
@@ -627,9 +627,9 @@ void rev_uncompress_line(bit_type *in, int ncell, int ncolor, bit_type *out)
 	}
 	else
 	{
-	    b[z]= ((in[bi] << (ncolor - bn)) |
-		   (in[++bi] >> (_bit_intsiz - ncolor + bn))
-		   & bit_zeroone(ncolor));
+	    b[z]= (((in[bi] << (ncolor - bn)) |
+		        (in[++bi] >> (_bit_intsiz - ncolor + bn)))
+               & bit_zeroone(ncolor));
 	    bn+= _bit_intsiz - ncolor;
 	}
     }

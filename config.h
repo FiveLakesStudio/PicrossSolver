@@ -42,7 +42,7 @@
  * program.
  */
 
-/* #define DUMP_FILE "/tmp/pbnsolve.dump"  /**/
+/* #define DUMP_FILE "/tmp/pbnsolve.dump"  */
 
 /* LIMIT COLORS - If LIMITCOLORS is defined, pbnsolve will only be able to
  * handle puzzles with 32 colors or less (maybe 64 if your computer has
@@ -58,7 +58,7 @@
  * the supported non-xml file formats are pathetic, but that's life.
  */
 
-/* #define NOXML /**/
+/* #define NOXML */
 
 /* DEBUG LEVEL - This controls how much debugging code is compiled into the
  * program.  If debugging code is included in the program, then it is turned
@@ -80,4 +80,4 @@
  * Disabling this at compile time makes the program significantly faster.
  */
 
-/*#define LINEWATCH /**/
+/*#define LINEWATCH */

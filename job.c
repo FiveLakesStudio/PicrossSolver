@@ -327,7 +327,7 @@ Hist *add_hist(Puzzle *puz, Cell *cell, int branch)
 Hist *add_hist2(Puzzle *puz, Cell *cell, color_t oldn, bit_type *oldbit, int branch)
 {
     Hist *h;
-    color_t z;
+    //color_t z;
 
     /* We only start keeping a history after the first branch point */
     if (puz->nhist == 0 && !branch) return NULL;
@@ -427,8 +427,8 @@ int undo(Puzzle *puz, Solution *sol, int leave_branch)
 int backtrack(Puzzle *puz, Solution *sol)
 {
     Hist *h;
-    color_t z, oldn, newn;
-    dir_t k;
+    //color_t z, oldn, newn;
+    //dir_t k;
 
     if (VB) printf("B: BACKTRACKING TO LAST GUESS\n");
 

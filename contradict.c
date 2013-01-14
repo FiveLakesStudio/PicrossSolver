@@ -16,6 +16,9 @@
 #include "pbnsolve.h"
 
 
+int undo(Puzzle *puz, Solution *sol, int leave_branch);
+
+
 #ifdef LINEWATCH
 #define WL(k,i) (puz->clue[k][i].watch)
 #define WC(i,j) (puz->clue[0][i].watch || puz->clue[1][j].watch)

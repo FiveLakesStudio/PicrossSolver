@@ -85,9 +85,9 @@ void parse_xml_solutionimage(Puzzle *puz, Solution *sol, char *p)
 {
     line_t i,j;
     color_t color;
-    int inrow;
+    //int inrow;
     Cell *cell;
-    char *q;
+    //char *q;
 
     if (puz->type == PT_TRID)
     	fail("parsing of triddler solutions not yet implemented\n");
@@ -157,19 +157,19 @@ void parse_xml_solution(xmlNode *root, Puzzle *puz, SolutionList *sl)
 
     for (node= root->children; node != NULL; node= node->next)
     {
-	if (!strcasecmp(node->name,"image"))
+	if (!strcasecmp((char *)node->name,"image"))
 	{
 	    if (gotimage)
 		fail("Multiple <image> tags in a <solution> tag\n");
 	    gotimage= 1;
-	    val= xmlNodeGetContent(node);
+	    val= (char *)xmlNodeGetContent(node);
 	    if (val != NULL)
 	    	parse_xml_solutionimage(puz, &sl->s, val);
 	}
-	else if (!strcasecmp(node->name,"note"))
+	else if (!strcasecmp((char *)node->name,"note"))
 	{
 	    if (sl->note != NULL) free(sl->note);
-	    sl->note= safedup(xmlNodeGetContent(node));
+	    sl->note= safedup((char *)xmlNodeGetContent(node));
 	}
     }
     if (!gotimage)
@@ -187,7 +187,7 @@ void parse_xml_clue(xmlNode *root, Puzzle *puz, Clue *clue)
     clue->n= 0;
     for (node= root->children; node != NULL; node= node->next)
     {
-	if (!strcasecmp(node->name,"count"))
+	if (!strcasecmp((char *)node->name,"count"))
 	    (clue->n)++;
     }
 
@@ -199,14 +199,14 @@ void parse_xml_clue(xmlNode *root, Puzzle *puz, Clue *clue)
     /* Now load the clue values */
     for (node= root->children, i= 0; node != NULL; node= node->next, i++)
     {
-	if (!strcasecmp(node->name,"count"))
+	if (!strcasecmp((char *)node->name,"count"))
 	{
-	    val= xmlNodeGetContent(node);
+	    val= (char *)xmlNodeGetContent(node);
 	    if (val == NULL || !isdigit(val[0]))
 	    	fail("expected number in <count> tag on line %d\n",node->line);
 	    clue->length[i]= atoi(val);
 
-	    col= xmlGetProp(node,"color");
+	    col= (char *)xmlGetProp(node,(xmlChar *)"color");
 	    clue->color[i]= (col == NULL) ? 1 : find_or_add_color(puz, col);
 	}
     }
@@ -220,14 +220,14 @@ void parse_xml_clue(xmlNode *root, Puzzle *puz, Clue *clue)
 void parse_xml_clues(xmlNode *root, Puzzle *puz, int k)
 {
     xmlNode *node;
-    Clue *clues;
+    //Clue *clues;
     int i;
 
     /* First, just count the children */
     puz->n[k]= 0;
     for (node= root->children; node != NULL; node= node->next)
     {
-	if (!strcasecmp(node->name,"line"))
+	if (!strcasecmp((char *)node->name,"line"))
 	    puz->n[k]++;
     }
 
@@ -236,7 +236,7 @@ void parse_xml_clues(xmlNode *root, Puzzle *puz, int k)
 
     for (node= root->children, i= 0; node != NULL; node= node->next, i++)
     {
-	if (!strcasecmp(node->name,"line"))
+	if (!strcasecmp((char *)node->name,"line"))
 	    parse_xml_clue(node, puz, &puz->clue[k][i]);
     }
 }
@@ -251,7 +251,7 @@ void parse_xml_puzzle(xmlNode *root, Puzzle *puz)
     int c, k;
     int haveclues= 0;
 
-    if ((type= xmlGetProp(root,"type")) == NULL)
+    if ((type= (char *)xmlGetProp(root,(xmlChar *)"type")) == NULL)
     	type= "grid";
 
     if (!strcasecmp(type,"grid"))
@@ -271,7 +271,7 @@ void parse_xml_puzzle(xmlNode *root, Puzzle *puz)
      * the first color loaded, it will always be color 0.
      */
 
-    if ((backgroundcolor= xmlGetProp(root,"backgroundcolor")) == NULL)
+    if ((backgroundcolor= (char *)xmlGetProp(root,(xmlChar *)"backgroundcolor")) == NULL)
     	backgroundcolor= "white";
     if (find_or_add_color(puz,backgroundcolor) != 0)
     	fail("Internal error - background color is not zero\n");
@@ -280,55 +280,55 @@ void parse_xml_puzzle(xmlNode *root, Puzzle *puz)
      * always be color 1.
      */
 
-    if ((defaultcolor= xmlGetProp(root,"defaultcolor")) == NULL)
+    if ((defaultcolor= (char *)xmlGetProp(root,(xmlChar *)"defaultcolor")) == NULL)
     	defaultcolor= "black";
     if (find_or_add_color(puz,defaultcolor) > 1)
     	fail("Internal error - default color is not one\n");
 
     for (node= root->children; node != NULL; node= node->next)
     {
-    	if (!strcasecmp(node->name,"author"))
+    	if (!strcasecmp((char *)node->name,"author"))
 	{
 	    if (puz->author != NULL) free(puz->author);
-	    puz->author= safedup(xmlNodeGetContent(node));
+	    puz->author= safedup((char *)xmlNodeGetContent(node));
 	}
-	else if (!strcasecmp(node->name,"title"))
+	else if (!strcasecmp((char *)node->name,"title"))
 	{
 	    if (puz->title != NULL) free(puz->title);
-	    puz->title= safedup(xmlNodeGetContent(node));
+	    puz->title= safedup((char *)xmlNodeGetContent(node));
 	}
-	else if (!strcasecmp(node->name,"copyright"))
+	else if (!strcasecmp((char *)node->name,"copyright"))
 	{
 	    if (puz->copyright != NULL) free(puz->copyright);
-	    puz->copyright= safedup(xmlNodeGetContent(node));
+	    puz->copyright= safedup((char *)xmlNodeGetContent(node));
 	}
-	else if (!strcasecmp(node->name,"description"))
+	else if (!strcasecmp((char *)node->name,"description"))
 	{
 	    if (puz->description != NULL) free(puz->description);
-	    puz->description= safedup(xmlNodeGetContent(node));
+	    puz->description= safedup((char *)xmlNodeGetContent(node));
 	}
-	else if (!strcasecmp(node->name,"source"))
+	else if (!strcasecmp((char *)node->name,"source"))
 	{
 	    if (puz->source != NULL) free(puz->source);
-	    puz->source= safedup(xmlNodeGetContent(node));
+	    puz->source= safedup((char *)xmlNodeGetContent(node));
 	}
-	else if (!strcasecmp(node->name,"id"))
+	else if (!strcasecmp((char *)node->name,"id"))
 	{
 	    if (puz->id != NULL) free(puz->id);
-	    puz->id= safedup(xmlNodeGetContent(node));
+	    puz->id= safedup((char *)xmlNodeGetContent(node));
 	}
-	else if (!strcasecmp(node->name,"color"))
+	else if (!strcasecmp((char *)node->name,"color"))
 	{
-	    char *name= xmlGetProp(node, "name");
+	    char *name= (char *)xmlGetProp(node, (xmlChar *)"name");
 	    if (name == NULL)
 	    	fail("Color tag without a name attribute");
-	    char *chp= xmlGetProp(node, "char");
-	    add_color(puz, name, xmlNodeGetContent(node),
+	    char *chp= (char *)xmlGetProp(node, (xmlChar *)"char");
+	    add_color(puz, name, (char *)xmlNodeGetContent(node),
 	    	(chp == NULL) ? '\0' : chp[0]);
 	}
-	else if (!strcasecmp(node->name,"clues"))
+	else if (!strcasecmp((char *)node->name,"clues"))
 	{
-	    char *cluetype= xmlGetProp(node,"type");
+	    char *cluetype= (char *)xmlGetProp(node,(xmlChar *)"type");
 	    if (puz->type == PT_GRID)
 	    {
 		if (!strcasecmp(cluetype,"rows"))
@@ -344,11 +344,11 @@ void parse_xml_puzzle(xmlNode *root, Puzzle *puz)
 	    }
 	    haveclues= 1;
 	}
-	else if (!strcasecmp(node->name,"solution"))
+	else if (!strcasecmp((char *)node->name,"solution"))
 	{
 	    SolutionList *sl= (SolutionList *)malloc(sizeof(SolutionList));
-	    char *id= xmlGetProp(node, "id");
-	    char *type= xmlGetProp(node, "type");
+	    char *id= (char *)xmlGetProp(node, (xmlChar *)"id");
+	    char *type= (char *)xmlGetProp(node, (xmlChar *)"type");
 
 	    if (lastsol == NULL)
 	    	puz->sol= sl;
@@ -425,14 +425,14 @@ Puzzle *load_xml_puzzle(int index)
 	xml= xmlReadFd(fileno(srcfp), srcname, NULL,
 			XML_PARSE_DTDLOAD | XML_PARSE_NOBLANKS);
     else
-    	xml= xmlReadDoc(srcimg, srcname, NULL,
+    	xml= xmlReadDoc((xmlChar *)srcimg, srcname, NULL,
 			XML_PARSE_DTDLOAD | XML_PARSE_NOBLANKS);
 
     if (xml == NULL)
     	fail("Could not load puzzle from %s\n",srcname);
 
     root= xmlDocGetRootElement(xml);
-    if (strcasecmp(root->name,"puzzleset"))
+    if (strcasecmp((char *)root->name,"puzzleset"))
     	fail("Expected root node to be <puzzleset> not <%s>\n",root->name);
 
     puz= new_puzzle();
@@ -441,27 +441,27 @@ Puzzle *load_xml_puzzle(int index)
     n= 0;
     for (node= root->children; node != NULL; node= node->next)
     {
-    	if (!strcasecmp(node->name,"author"))
+    	if (!strcasecmp((char *)node->name,"author"))
 	{
 	    if (puz->author == NULL)
-	    	puz->author= safedup(xmlNodeGetContent(node));
+	    	puz->author= safedup((char *)xmlNodeGetContent(node));
 	}
-	else if (!strcasecmp(node->name,"title"))
+	else if (!strcasecmp((char *)node->name,"title"))
 	{
 	    if (puz->seriestitle != NULL) free(puz->seriestitle);
-	    puz->seriestitle= safedup(xmlNodeGetContent(node));
+	    puz->seriestitle= safedup((char *)xmlNodeGetContent(node));
 	}
-	else if (!strcasecmp(node->name,"copyright"))
+	else if (!strcasecmp((char *)node->name,"copyright"))
 	{
 	    if (puz->copyright == NULL)
-	    	puz->copyright= safedup(xmlNodeGetContent(node));
+	    	puz->copyright= safedup((char *)xmlNodeGetContent(node));
 	}
-	else if (!strcasecmp(node->name,"source"))
+	else if (!strcasecmp((char *)node->name,"source"))
 	{
 	    if (puz->source == NULL)
-	    	puz->source= safedup(xmlNodeGetContent(node));
+	    	puz->source= safedup((char *)xmlNodeGetContent(node));
 	}
-	else if (!strcasecmp(node->name,"puzzle"))
+	else if (!strcasecmp((char *)node->name,"puzzle"))
 	{
 	    if (++n == index)
 	    	parse_xml_puzzle(node, puz);

@@ -26,6 +26,9 @@ int score_adjust= 0;	/* Subtraction from line score when cell is solved */
 int bookkeeping= 0;	/* Is bookkeeping for the above currently on? */
 
 
+double bicoln(int n, int k);
+
+
 /* ----------------- LINE SCORE INITIALIZATION FUNCTIONS ----------------- */
 
 /* These functions evaluate lines from the puzzle, giving LOWER scores

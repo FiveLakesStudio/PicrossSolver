@@ -16,6 +16,7 @@
 #include "pbnsolve.h"
 #include "read.h"
 
+void parse_grid(Puzzle *puz, Solution *sol, char *colorchar, int unknown);
 
 /* SREAD_NONSTR() - Return the rest of the line.  Dropping leading and
  * tailing white space.  If the result is a quoted string, drop the quotes.
@@ -229,19 +230,19 @@ Puzzle *load_non_puzzle()
     {
     	if (!strcmp(word, "catalogue"))
 	{
-	    if (arg= sread_nonstr()) puz->id= strdup(arg);
+	    if ((arg= sread_nonstr()) != NULL) puz->id= strdup(arg);
 	}
 	else if (!strcmp(word, "title"))
 	{
-	    if (arg= sread_nonstr()) puz->title= strdup(arg);
+	    if ((arg= sread_nonstr()) != NULL) puz->title= strdup(arg);
 	}
 	else if (!strcmp(word, "by"))
 	{
-	    if (arg= sread_nonstr()) puz->author= strdup(arg);
+	    if ((arg= sread_nonstr()) != NULL) puz->author= strdup(arg);
 	}
 	else if (!strcmp(word, "copyright"))
 	{
-	    if (arg= sread_nonstr()) puz->copyright= strdup(arg);
+	    if ((arg= sread_nonstr()) != NULL) puz->copyright= strdup(arg);
 	}
 	else if (!strcmp(word, "width"))
 	{

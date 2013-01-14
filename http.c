@@ -58,7 +58,8 @@ char *get_query()
 
 char *query_lookup(char *query, char *var)
 {
-    char *end, *v, *t, *term;
+    char *end, *v, *term;
+    //char *t;
 
     if  (query == NULL || query[0] == '\0')
 	return NULL;

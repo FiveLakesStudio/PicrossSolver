@@ -16,6 +16,9 @@
 #include "pbnsolve.h"
 
 
+int undo(Puzzle *puz, Solution *sol, int leave_branch);
+
+
 #ifdef LINEWATCH
 #define WL(k,i) (puz->clue[k][i].watch)
 #define WC(i,j) (puz->clue[0][i].watch || puz->clue[1][j].watch)
@@ -135,7 +138,7 @@ int probe_cell(Puzzle *puz, Solution *sol, Cell *cell, line_t i, line_t j,
 		    /* Probe complete - save it's rating and undo it */
 		    nleft= puz->ncells - puz->nsolved;
 		    if (VQ || VP || WC(i,j))
-			printf("P: PROBE #%d ON (%d,%d)%d COMPLETE "
+			printf("P: PROBE #%ld ON (%d,%d)%d COMPLETE "
 			    "WITH %d CELLS LEFT (%s)\n",nprobe,
 			    i,j,c,nleft, Probesource[currsrc]);
 		    if (nleft < *bestnleft)
@@ -277,7 +280,7 @@ int probe(Puzzle *puz, Solution *sol,
 {
     line_t i, j, k;
     int bestsrc;
-    color_t c;
+    //color_t c;
     Cell *cell;
     int rc, neigh;
     int bestnleft= INT_MAX;

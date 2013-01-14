@@ -32,7 +32,7 @@
 
 void guess_cell(Puzzle *puz, Solution *sol, Cell *cell, color_t c)
 {
-    dir_t k;
+    //dir_t k;
     Hist *h;
 
     /* Save old cell in backtrack history */
@@ -111,7 +111,7 @@ int line_solve(Puzzle *puz, Solution *sol, int contradicting)
 
 int logic_solve(Puzzle *puz, Solution *sol, int contradicting)
 {
-    int stalled;
+    //int stalled;
     int rc;
 
     while (1)
@@ -165,7 +165,7 @@ int solve(Puzzle *puz, Solution *sol)
     Cell *cell;
     line_t besti, bestj;
     color_t bestc;
-    int bestnleft;
+    //int bestnleft;
     int rc;
     int sprint_clock= 0, plod_clock= PLOD_INIT;
 
