@@ -19,6 +19,7 @@
 #include "config.h"
 #include "bitstring.h"
 
+
 #ifdef LIMITCOLORS
 void fbit_init(int n)
 {
@@ -27,7 +28,7 @@ void fbit_init(int n)
 	printf("Number of colors cannot exceed %ld\n"
 	    "Recompile with LIMITCOLORS off to remove this limitation\n",
 	    fbit_n);
-	exit(1);
+	//exit(1);
     }
 }
 #else

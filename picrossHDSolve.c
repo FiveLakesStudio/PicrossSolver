@@ -61,7 +61,7 @@ void timeout(int sig)
         fputs("CPU time limit exceeded\n", stderr);
         puts("CPU time limit exceeded");
     }
-    exit(1);
+    //exit(1);
 }
 
 
@@ -187,11 +187,21 @@ void intr(int sig)
 {
     char buf[10];
     fprintf(stderr,"\n");
-    if (!ipuz) exit(1);
+    
+    if( !ipuz )
+    {
+        //exit(1);
+        return;
+    }
+    
     print_stats(stderr,ipuz,clock());
     fprintf(stderr,"\nContinue [Y/n]? ");
     fgets(buf,9,stdin);
-    if (buf[0]=='n' || buf[0]=='N') exit(1);
+    if (buf[0]=='n' || buf[0]=='N')
+    {
+        //exit(1);
+        return;
+    }
 }
 
 #define SN_NONE 0
@@ -455,7 +465,7 @@ int picrossHDSolveCommandLineEntry(int argc, char **argv)
         
         if (setformat && !format) goto usage;
         if (format)
-        {   
+        {
             fmt= fmt_code(format);
             if (fmt == FF_UNKNOWN) fail("Unknown file format: %s\n", format);
         }
@@ -505,13 +515,13 @@ int picrossHDSolveCommandLineEntry(int argc, char **argv)
     /* Print the name of the puzzle */
     if (!terse)   // !! TC !!
     {
-    if (!http && (puz->id != NULL || puz->title != NULL))
-    {
-        if (puz->id != NULL) printf("%s: ", puz->id);
-        if (puz->seriestitle != NULL) printf("%s ",puz->seriestitle);
-        if (puz->title != NULL) fputs(puz->title, stdout);
-        putchar('\n');
-    }
+        if (!http && (puz->id != NULL || puz->title != NULL))
+        {
+            if (puz->id != NULL) printf("%s: ", puz->id);
+            if (puz->seriestitle != NULL) printf("%s ",puz->seriestitle);
+            if (puz->title != NULL) fputs(puz->title, stdout);
+            putchar('\n');
+        }
     }
     
     if (dump) dump_puzzle(stdout,puz);
@@ -740,12 +750,14 @@ int picrossHDSolveCommandLineEntry(int argc, char **argv)
     if (sl == NULL) free_solution(sol);
     free_puzzle(puz);
     
-    exit(0);
+    //exit(0);
+    return 0;
     
 usage:
     fprintf(stderr,"usage: %s [-cdehu] [-s#] [-n#] [-x#] [-aLEHGPM] [-vABEGJLMPUSV] [<filename>]\n",
             argv[0]);
-    exit(1);
+    //exit(1);
+    return 1;
 }
 
 void fail(const char *fmt, ...)
@@ -761,5 +773,5 @@ void fail(const char *fmt, ...)
     else
         vfprintf(stderr,fmt, ap);
     va_end(ap);
-    exit(1);
+    //exit(1);
 }
