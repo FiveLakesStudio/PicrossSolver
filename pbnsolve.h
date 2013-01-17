@@ -459,3 +459,9 @@ void init_cache(Puzzle *puz);
 bit_type *line_cache(Puzzle *puz,Solution *sol,dir_t k,line_t i);
 void add_cache(Puzzle *puz, Solution *sol, dir_t k, line_t i);
 extern long cache_hit, cache_req, cache_add, cache_flush;
+
+/* */
+int fmt_code(char *fmt);
+void fbit_init(int n);
+void init_merge(Puzzle *puz);
+
