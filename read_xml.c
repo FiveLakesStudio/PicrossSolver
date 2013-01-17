@@ -413,24 +413,15 @@ void parse_xml_puzzle(xmlNode *root, Puzzle *puz)
  * If the source contains multiple puzzle, index tells which to load (1 is
  * the first one).
  */
-
-Puzzle *load_xml_puzzle(int index)
+Puzzle *load_xml_puzzle_from_xmlDoc(xmlDoc *xml, int index)
 {
-    xmlDoc *xml;
     xmlNode *root, *node;
     Puzzle *puz;
     int n;
 
-    if (srcfp != NULL)
-	xml= xmlReadFd(fileno(srcfp), srcname, NULL,
-			XML_PARSE_DTDLOAD | XML_PARSE_NOBLANKS);
-    else
-    	xml= xmlReadDoc((xmlChar *)srcimg, srcname, NULL,
-			XML_PARSE_DTDLOAD | XML_PARSE_NOBLANKS);
-
     if (xml == NULL)
     	fail("Could not load puzzle from %s\n",srcname);
-
+    
     root= xmlDocGetRootElement(xml);
     if (strcasecmp((char *)root->name,"puzzleset"))
     	fail("Expected root node to be <puzzleset> not <%s>\n",root->name);
@@ -468,8 +459,26 @@ Puzzle *load_xml_puzzle(int index)
 	}
     }
 
-    xmlFreeDoc(xml);
-
     return puz;
 }
+
+
+Puzzle *load_xml_puzzle(int index)
+{
+    xmlDoc *xml;
+    
+    if (srcfp != NULL)
+        xml= xmlReadFd(fileno(srcfp), srcname, NULL,
+                       XML_PARSE_DTDLOAD | XML_PARSE_NOBLANKS);
+    else
+    	xml= xmlReadDoc((xmlChar *)srcimg, srcname, NULL,
+                        XML_PARSE_DTDLOAD | XML_PARSE_NOBLANKS);
+    
+    Puzzle *puz = load_xml_puzzle_from_xmlDoc(xml, index);
+    
+    xmlFreeDoc(xml);
+    
+    return puz;
+}
+
 #endif

@@ -25,7 +25,7 @@
 FILE *srcfp;
 char *srcimg;
 int srcptr;	/* next character to read from srcimg */
-char *srcname;	/* Name of input, used in error messages */
+char *srcname = "Unknown";	/* Name of input, used in error messages */
 
 
 /* SGETC() - Read a character from current source.  Returns EOF on end of file.

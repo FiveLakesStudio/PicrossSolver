@@ -1,3 +1,6 @@
+#include <libxml/parser.h>
+#include <libxml/tree.h>
+
 /* The current input */
 extern FILE *srcfp;
 extern char *srcimg;
@@ -19,6 +22,7 @@ Puzzle *new_puzzle(void);
 void init_bw_colors(Puzzle *puz);
 Puzzle *init_bw_puzzle(void);
 
+Puzzle *load_xml_puzzle_from_xmlDoc(xmlDoc *xml, int index);
 Puzzle *load_xml_puzzle(int index);
 Puzzle *load_mk_puzzle(void);
 Puzzle *load_nin_puzzle(void);
