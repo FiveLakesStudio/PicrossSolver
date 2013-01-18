@@ -121,7 +121,7 @@ void resetPicrossSolverGlobals()
         
         resetPicrossSolverGlobals();
         
-        Puzzle *puz = NULL;
+        Puzzle *puz = NULL; 
         
         // Get a representation of our puzzle in XML form.  We need to rap this in a puzzleset node
         // for the solver.
