@@ -122,6 +122,7 @@ long cache_flush= 0;
 void init_hash(LineHash **hash, line_t ncell, color_t ncolor)
 {
     *hash= (LineHash *)realloc(*hash, sizeof(LineHash));
+    memset( *hash, 0x00, sizeof(LineHash) );
     (*hash)->len= bit_size( ncell * ncolor );
     (*hash)->esize= HashElemSize(*hash);
     (*hash)->nsloti= 0;

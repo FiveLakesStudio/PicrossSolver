@@ -234,6 +234,7 @@ int try_everything(Puzzle *puz, Solution *sol, int check)
     for (j= 0; j < puz->n[D_COL]; j++) free(colpad[j]);
     free(colpad);
     free(rowpad);
+    free(realbit);
 
     exh_cells+= hits;
 

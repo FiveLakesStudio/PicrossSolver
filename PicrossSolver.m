@@ -137,11 +137,12 @@ void resetPicrossSolverGlobals()
             return SOLVER_STATUS_ERROR;
         
         // Parse the C string into an xmlDoc so we can load the puzzle
-        xmlDoc *xmlDoc = xmlReadMemory(puzzleCStr, strlen(puzzleCStr), "http://fivelakesstudio.com/picrosshd.xml", NULL, XML_PARSE_DTDLOAD | XML_PARSE_NOBLANKS);
+        xmlDoc *xmlDoc = xmlReadMemory(puzzleCStr, strlen(puzzleCStr), "picrosshd.xml", NULL, XML_PARSE_DTDLOAD | XML_PARSE_NOBLANKS);
         if( xmlDoc != NULL )
         {
             puz = load_xml_puzzle_from_xmlDoc( xmlDoc, 1 );  // 1 is first puzzle in the puzzleset
             xmlFreeDoc(xmlDoc);
+            xmlCleanupParser();
             xmlDoc = NULL;
         }
         
@@ -291,9 +292,8 @@ void resetPicrossSolverGlobals()
             free_solution( sol );
         sol = NULL;
         
-        free_puzzle( puz );
-        puz = NULL;
-        
+        safefree( goal );     goal    = NULL;
+        free_puzzle( puz );   puz     = NULL;   altsoln = NULL;
         
         if( solutionStatus & SOLVER_STATUS_ERROR )      NSLog( @"Picross Solution Error" );
         if( solutionStatus & SOLVER_STATUS_STALLED )    NSLog( @"Picross Solution SOLVER_STATUS_STALLED" );

@@ -23,6 +23,7 @@
 Puzzle *new_puzzle()
 {
     Puzzle *puz= (Puzzle *)calloc(1, sizeof(Puzzle));
+    memset( puz, 0x00, sizeof(Puzzle) );
     return puz;
 }
 
@@ -57,6 +58,11 @@ void free_puzzle(Puzzle *puz)
 	{
 	    safefree(puz->clue[k][i].length);
 	    safefree(puz->clue[k][i].color);
+        
+        safefree(puz->clue[k][i].lpos );
+        safefree(puz->clue[k][i].rpos );
+        safefree(puz->clue[k][i].lcov );
+        safefree(puz->clue[k][i].rcov );
 	}
 	safefree(puz->clue[k]);
     }
@@ -67,6 +73,10 @@ void free_puzzle(Puzzle *puz)
 	free_solution_list(sl);
     }
 
+    safefree( puz->job );
+    safefree( puz->found );
+    safefree( puz->history );
+    
     free(puz);
 }
 
