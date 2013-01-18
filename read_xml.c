@@ -164,12 +164,24 @@ void parse_xml_solution(xmlNode *root, Puzzle *puz, SolutionList *sl)
             gotimage= 1;
             val= (char *)xmlNodeGetContent(node);
             if (val != NULL)
+            {
                 parse_xml_solutionimage(puz, &sl->s, val);
+                xmlFree( val );
+                val = NULL;
+            }
         }
         else if (!strcasecmp((char *)node->name,"note"))
         {
-            if (sl->note != NULL) free(sl->note);
-            sl->note= safedup((char *)xmlNodeGetContent(node));
+            if (sl->note != NULL)
+                free(sl->note);
+            
+            xmlChar *noteNode = xmlNodeGetContent(node);
+            sl->note= safedup((char *)noteNode);
+            if( noteNode != NULL )
+            {
+                xmlFree( noteNode );
+                noteNode = NULL;
+            }
         }
     }
     if (!gotimage)
@@ -208,7 +220,9 @@ void parse_xml_clue(xmlNode *root, Puzzle *puz, Clue *clue)
             
             col= (char *)xmlGetProp(node,(xmlChar *)"color");
             clue->color[i]= (col == NULL) ? 1 : find_or_add_color(puz, col);
+            
             if( col != NULL ) xmlFree( col ); col = NULL;
+            if( val != NULL ) xmlFree( val ); col = NULL;
         }
     }
     
@@ -241,6 +255,8 @@ void parse_xml_clues(xmlNode *root, Puzzle *puz, int k)
             parse_xml_clue(node, puz, &puz->clue[k][i]);
     }
 }
+
+
 
 
 void parse_xml_puzzle(xmlNode *root, Puzzle *puz)
@@ -291,32 +307,32 @@ void parse_xml_puzzle(xmlNode *root, Puzzle *puz)
     	if (!strcasecmp((char *)node->name,"author"))
         {
             if (puz->author != NULL) free(puz->author);
-            puz->author= safedup((char *)xmlNodeGetContent(node));
+            puz->author= ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"title"))
         {
             if (puz->title != NULL) free(puz->title);
-            puz->title= safedup((char *)xmlNodeGetContent(node));
+            puz->title= ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"copyright"))
         {
             if (puz->copyright != NULL) free(puz->copyright);
-            puz->copyright= safedup((char *)xmlNodeGetContent(node));
+            puz->copyright= ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"description"))
         {
             if (puz->description != NULL) free(puz->description);
-            puz->description= safedup((char *)xmlNodeGetContent(node));
+            puz->description= ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"source"))
         {
             if (puz->source != NULL) free(puz->source);
-            puz->source= safedup((char *)xmlNodeGetContent(node));
+            puz->source= ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"id"))
         {
             if (puz->id != NULL) free(puz->id);
-            puz->id= safedup((char *)xmlNodeGetContent(node));
+            puz->id= ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"color"))
         {
@@ -324,8 +340,9 @@ void parse_xml_puzzle(xmlNode *root, Puzzle *puz)
             if (name == NULL)
                 fail("Color tag without a name attribute");
             char *chp= (char *)xmlGetProp(node, (xmlChar *)"char");
-            add_color(puz, name, (char *)xmlNodeGetContent(node),
-                      (chp == NULL) ? '\0' : chp[0]);
+            
+            xmlChar *nodeContent = xmlNodeGetContent(node);
+            add_color(puz, name, (char *)nodeContent, (chp == NULL) ? '\0' : chp[0]);
             
             if( name != NULL )
             {
@@ -338,6 +355,13 @@ void parse_xml_puzzle(xmlNode *root, Puzzle *puz)
                 xmlFree( chp );
                 chp = NULL;
             }
+            
+            if( nodeContent != NULL )
+            {
+                xmlFree( nodeContent );
+                nodeContent = NULL;
+            }
+
         }
         else if (!strcasecmp((char *)node->name,"clues"))
         {
@@ -471,22 +495,22 @@ Puzzle *load_xml_puzzle_from_xmlDoc(xmlDoc *xml, int index)
     	if (!strcasecmp((char *)node->name,"author"))
         {
             if (puz->author == NULL)
-                puz->author= safedup((char *)xmlNodeGetContent(node));
+                puz->author= ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"title"))
         {
             if (puz->seriestitle != NULL) free(puz->seriestitle);
-            puz->seriestitle= safedup((char *)xmlNodeGetContent(node));
+            puz->seriestitle= ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"copyright"))
         {
             if (puz->copyright == NULL)
-                puz->copyright= safedup((char *)xmlNodeGetContent(node));
+                puz->copyright= ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"source"))
         {
             if (puz->source == NULL)
-                puz->source= safedup((char *)xmlNodeGetContent(node));
+                puz->source= ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"puzzle"))
         {
