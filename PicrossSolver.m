@@ -16,6 +16,61 @@
 #include "read.h"
 
 
+
+long nlines, probes, guesses, backtracks, merges, nsprint, nplod;
+long exh_runs, exh_cells;
+long contratests, contrafound;
+
+int verb[NVERB];
+int cachelines= 0;
+int checksolution= 0;
+int checkunique= 0;
+int contradepth= 2;
+int maybacktrack= 1, mayexhaust= 1, maycontradict= 0, maycache= 1;
+int mayguess= 1, mayprobe= 1, mergeprobe= 0, maylinesolve= 1;
+
+
+
+
+void fail(const char *fmt, ...)
+{
+    va_list ap;
+    va_start( ap,fmt );
+    vfprintf( stderr, fmt, ap );
+    va_end(ap);
+}
+
+
+
+
+void resetPicrossSolverGlobals()
+{
+    nlines = 0;
+    probes = 0;
+    guesses = 0;
+    backtracks = 0;
+    merges = 0;
+    nsprint = 0;
+    nplod = 0;
+    exh_runs = 0;
+    exh_cells = 0;
+    contratests = 0;
+    contrafound = 0;
+    
+    memset( verb, 0x00, sizeof(verb) );
+    
+    cachelines = 0;
+    checksolution = 0;
+    checkunique = 0;
+    contradepth = 2;
+    maybacktrack = 1, mayexhaust = 1, maycontradict = 0, maycache = 1;
+    mayguess = 1, mayprobe = 1, mergeprobe = 0, maylinesolve = 1;
+}
+
+
+
+
+
 @implementation PicrossSolver
 
 
@@ -59,179 +114,184 @@
 
 - (void)analysePicData:(PicData *)picData withPuzzleDescritpion:(PicPuzzleDescription *)puzzleDesc
 {
-    if( picData == nil  ||  puzzleDesc == nil )
-        return;
-
-    Puzzle *puz = NULL;
-    
-    // Get a representation of our puzzle in XML form.  We need to rap this in a puzzleset node
-    // for the solver.
-    //
-    FLXMLData *puzzleSet = [[FLXMLData alloc] initElement:@"puzzleset"];
-    [puzzleSet addNode:[puzzleDesc solverXMLForPicData:picData]];
-    NSString  *puzzleXMLStr = puzzleSet.toXML;
-    NSLog( @"doDevButton dump:\n%@", puzzleXMLStr );
-
-    // The solver API is a C based API so convert the XML to a CSTR
-    const char *puzzleCStr = [puzzleXMLStr cStringUsingEncoding:NSUTF8StringEncoding];
-    if( puzzleCStr == NULL )
-        return;
-    
-    // Parse the C string into an xmlDoc so we can load the puzzle
-    xmlDoc *xmlDoc = xmlReadMemory(puzzleCStr, strlen(puzzleCStr), "http://fivelakesstudio.com/picrosshd.xml", NULL, XML_PARSE_DTDLOAD | XML_PARSE_NOBLANKS);
-    if( xmlDoc != NULL )
+    @synchronized( self )
     {
-        puz = load_xml_puzzle_from_xmlDoc( xmlDoc, 1 );  // 1 is first puzzle in the puzzleset
-        xmlFreeDoc(xmlDoc);
-        xmlDoc = NULL;
-    }
-    
-    if( puz == NULL )
-        return;
-    
-    /* Initialize the bitstring handling code for puzzles of our size */
-    fbit_init(puz->ncolor);
-    
-    /* preallocate some arrays */
-    init_line(puz);
-
-    /* Find Solutions */
-    SolutionList *sl            = NULL;
-    Solution     *sol           = NULL;
-    bool          checkunique   = YES;
-    char         *goal          = NULL;  // The correct solution
-    char         *altsoln       = NULL;
-
-    // Find the goal
-    for( sl = puz->sol; sl != NULL; sl = sl->next )
-    {
-        if( sl->type == STYPE_GOAL )
+        if( picData == nil  ||  puzzleDesc == nil )
+            return;
+        
+        resetPicrossSolverGlobals();
+        
+        Puzzle *puz = NULL;
+        
+        // Get a representation of our puzzle in XML form.  We need to rap this in a puzzleset node
+        // for the solver.
+        //
+        FLXMLData *puzzleSet = [[FLXMLData alloc] initElement:@"puzzleset"];
+        [puzzleSet addNode:[puzzleDesc solverXMLForPicData:picData]];
+        NSString  *puzzleXMLStr = puzzleSet.toXML;
+        NSLog( @"doDevButton dump:\n%@", puzzleXMLStr );
+        
+        // The solver API is a C based API so convert the XML to a CSTR
+        const char *puzzleCStr = [puzzleXMLStr cStringUsingEncoding:NSUTF8StringEncoding];
+        if( puzzleCStr == NULL )
+            return;
+        
+        // Parse the C string into an xmlDoc so we can load the puzzle
+        xmlDoc *xmlDoc = xmlReadMemory(puzzleCStr, strlen(puzzleCStr), "http://fivelakesstudio.com/picrosshd.xml", NULL, XML_PARSE_DTDLOAD | XML_PARSE_NOBLANKS);
+        if( xmlDoc != NULL )
         {
-            goal = solution_string(puz, &sl->s);
-            break;
+            puz = load_xml_puzzle_from_xmlDoc( xmlDoc, 1 );  // 1 is first puzzle in the puzzleset
+            xmlFreeDoc(xmlDoc);
+            xmlDoc = NULL;
         }
-    }
-    
-    // Find solutions
-    //
-    {
-        int rc  = 0;
-        int isunique = 0;
-        int iscomplete = 0;
-
-        /* Start from a blank grid if we didn't start from a saved game */
-        if (sol == NULL)
-            sol= new_solution(puz);
         
-        clue_init(puz, sol);
-        init_jobs(puz, sol);
+        if( puz == NULL )
+            return;
         
-        nlines= probes= guesses= backtracks= merges= exh_runs= exh_cells= 0;
-        contratests= contrafound= nsprint= 0;
-        nplod= 1;
-        while (1)
+        /* Initialize the bitstring handling code for puzzles of our size */
+        fbit_init(puz->ncolor);
+        
+        /* preallocate some arrays */
+        init_line(puz);
+        
+        /* Find Solutions */
+        SolutionList *sl            = NULL;
+        Solution     *sol           = NULL;
+        bool          checkunique   = YES;
+        char         *goal          = NULL;  // The correct solution
+        char         *altsoln       = NULL;
+        
+        // Find the goal
+        for( sl = puz->sol; sl != NULL; sl = sl->next )
         {
-            rc = solve( puz, sol );
-            iscomplete= rc && (puz->nsolved == puz->ncells); /* true unless -l */
-            if (!checkunique || !rc || puz->nhist == 0 || puz->found != NULL)
+            if( sl->type == STYPE_GOAL )
             {
-                /* Time to stop searching.  Either
-                 *  (1) we aren't checking for uniqueness
-                 *  (2) the last search didn't find any solution
-                 *  (3) the last search involved no guessing
-                 *  (4) a previous search found a solution.
-                 * The solution we found is unique if (3) is true and (4) is false.
-                 */
-                isunique= (iscomplete && puz->nhist==0 && puz->found==NULL);
-                
-                /* If we know the puzzle is not unique, then it is because we
-                 * previously found another solution.  If checksolution is true,
-                 * and we went on to search more, then the first one must have
-                 * been the goal, so this one isn't.
-                 */
-                if (checksolution && !isunique)
-                    altsoln= solution_string(puz,sol);
+                goal = solution_string(puz, &sl->s);
                 break;
             }
-            
-            /* If we are checking for uniqueness, and we found a solution, but
-             * we aren't sure it is unique and we haven't found any others before
-             * then we don't know yet if the puzzle is unique or not, so we still
-             * have some work to do.  Start by saving the solution we found.
-             */
-            puz->found= solution_string(puz, sol);
-            
-            /* If we have the expected goal, check if the solution we found that.
-             * if not, we can take non-uniqueness as proven without further
-             * searching.
-             */
-            if (goal != NULL && strcmp(puz->found, goal))
-            {
-                if (VA) puts("A: FOUND A SOLUTION THAT DOES NOT MATCH GOAL");
-                isunique= 0;
-                altsoln= puz->found;
-                break;
-            }
-            /* Otherwise, there is nothing to do but to backtrack from the current
-             * solution and then resume the search to see if we can find a
-             * differnt one.
-             */
-            if (VA) printf("A: FOUND ONE SOLUTION - CHECKING FOR MORE\n%s",
-                           puz->found);
-            backtrack(puz,sol);
         }
-
-        // Calculate the totallines
-        int totallines= 0;
-        for(int i= 0; i < puz->nset; i++)
-            totallines+= puz->n[i];
         
-        NSLog( @"isunique:%d iscomplete:%d", isunique, iscomplete );
-
-        if( !iscomplete  &&  puz->found == NULL )
-            NSLog( @"stalled ");
-        else if (rc)
+        // Find solutions
+        //
         {
-            if( isunique )
+            int rc  = 0;
+            int isunique = 0;
+            int iscomplete = 0;
+            
+            /* Start from a blank grid if we didn't start from a saved game */
+            if (sol == NULL)
+                sol= new_solution(puz);
+            
+            clue_init(puz, sol);
+            init_jobs(puz, sol);
+            
+            nlines= probes= guesses= backtracks= merges= exh_runs= exh_cells= 0;
+            contratests= contrafound= nsprint= 0;
+            nplod= 1;
+            while (1)
             {
-                if( nlines <= totallines )
-                    NSLog( @"trivial ");
-                if (guesses == 0 && probes == 0)
+                rc = solve( puz, sol );
+                iscomplete = rc && (puz->nsolved == puz->ncells); /* true unless -l */
+                if (!checkunique || !rc || puz->nhist == 0 || puz->found != NULL)
                 {
-                    if (contrafound > 0)
-                        NSLog(@"unique depth-%d ",contradepth);
+                    /* Time to stop searching.  Either
+                     *  (1) we aren't checking for uniqueness
+                     *  (2) the last search didn't find any solution
+                     *  (3) the last search involved no guessing
+                     *  (4) a previous search found a solution.
+                     * The solution we found is unique if (3) is true and (4) is false.
+                     */
+                    isunique= (iscomplete && puz->nhist==0 && puz->found==NULL);
+                    
+                    /* If we know the puzzle is not unique, then it is because we
+                     * previously found another solution.  If checksolution is true,
+                     * and we went on to search more, then the first one must have
+                     * been the goal, so this one isn't.
+                     */
+                    if (checksolution && !isunique)
+                        altsoln= solution_string(puz,sol);
+                    break;
+                }
+                
+                /* If we are checking for uniqueness, and we found a solution, but
+                 * we aren't sure it is unique and we haven't found any others before
+                 * then we don't know yet if the puzzle is unique or not, so we still
+                 * have some work to do.  Start by saving the solution we found.
+                 */
+                puz->found= solution_string(puz, sol);
+                
+                /* If we have the expected goal, check if the solution we found that.
+                 * if not, we can take non-uniqueness as proven without further
+                 * searching.
+                 */
+                if (goal != NULL && strcmp(puz->found, goal))
+                {
+                    if (VA) puts("A: FOUND A SOLUTION THAT DOES NOT MATCH GOAL");
+                    isunique= 0;
+                    altsoln= puz->found;
+                    break;
+                }
+                /* Otherwise, there is nothing to do but to backtrack from the current
+                 * solution and then resume the search to see if we can find a
+                 * differnt one.
+                 */
+                if (VA) printf("A: FOUND ONE SOLUTION - CHECKING FOR MORE\n%s",
+                               puz->found);
+                backtrack(puz,sol);
+            }
+            
+            // Calculate the totallines
+            int totallines= 0;
+            for(int i= 0; i < puz->nset; i++)
+                totallines+= puz->n[i];
+            
+            NSLog( @"isunique:%d iscomplete:%d", isunique, iscomplete );
+            
+            if( !iscomplete  &&  puz->found == NULL )
+                NSLog( @"stalled ");
+            else if (rc)
+            {
+                if( isunique )
+                {
+                    if( nlines <= totallines )
+                        NSLog( @"trivial ");
+                    if (guesses == 0 && probes == 0)
+                    {
+                        if (contrafound > 0)
+                            NSLog(@"unique depth-%d ",contradepth);
+                        else
+                            NSLog(@"unique logical ");
+                    }
                     else
-                        NSLog(@"unique logical ");
+                        NSLog(@"unique ");
+                }
+                else if (puz->found == NULL)
+                {
+                    NSLog(@"solvable ");
                 }
                 else
-                    NSLog(@"unique ");
+                {
+                    NSLog(@"multiple ");
+                }
             }
-            else if (puz->found == NULL)
+            else if (puz->found != NULL)
             {
-                NSLog(@"solvable ");
+                NSLog(@"unique ");
             }
             else
-            {
-                NSLog(@"multiple ");
-            }
+                NSLog(@"contradition ");
+            
+            if( puz->id != NULL )
+                printf(" \t %s\n", puz->id);    /* !! TC !! Added */
+            
         }
-        else if (puz->found != NULL)
-        {
-            NSLog(@"unique ");
-        }
-        else
-            NSLog(@"contradition ");
         
-        if( puz->id != NULL )
-            printf(" \t %s\n", puz->id);    /* !! TC !! Added */
-
+        if (sl != NULL)
+            free_solution(sol);
+        
+        free( puz );
+        puz = NULL;
     }
-    
-    if (sl != NULL)
-        free_solution(sol);
-
-    free( puz );
-    puz = NULL;
 }
 
 
