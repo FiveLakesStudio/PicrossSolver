@@ -121,7 +121,7 @@ long cache_flush= 0;
 
 void init_hash(LineHash **hash, line_t ncell, color_t ncolor)
 {
-    *hash= (LineHash *)malloc(sizeof(LineHash));
+    *hash= (LineHash *)realloc(*hash, sizeof(LineHash));
     (*hash)->len= bit_size( ncell * ncolor );
     (*hash)->esize= HashElemSize(*hash);
     (*hash)->nsloti= 0;
@@ -136,6 +136,9 @@ void alloc_hash(LineHash *hash)
 {
     hash->nslots= nslot[hash->nsloti];
     hash->flushat= hash->nslots * 9 / 10;
+    
+    if( hash->hash != NULL )
+        free( hash->hash );
     hash->hash= (char *)calloc(hash->nslots, hash->esize);
 }
 
@@ -239,8 +242,8 @@ void init_cache(Puzzle *puz)
     alloc_hash(cache[D_COL]);
 
     /* Build clue id arrays */
-    clid[D_ROW]= (line_t *)malloc(sizeof(line_t) * puz->n[D_ROW]);
-    clid[D_COL]= (line_t *)malloc(sizeof(line_t) * puz->n[D_COL]);
+    clid[D_ROW]= (line_t *)realloc(clid[D_ROW], sizeof(line_t) * puz->n[D_ROW]);
+    clid[D_COL]= (line_t *)realloc(clid[D_COL], sizeof(line_t) * puz->n[D_COL]);
 
     if (VH) printf("H:   Assigning Clue IDs:\n");
 
@@ -267,11 +270,11 @@ void init_cache(Puzzle *puz)
     }
 
     /* Allocate storage for a compressed row or column */
-    tmp= (bit_type *)malloc(
+    tmp= (bit_type *)realloc(tmp,
 	    bit_size(maxdimension * puz->ncolor) * sizeof(bit_type));
 
     /* Allocate storage for an uncompressed row or column */
-    col= (bit_type *)malloc( maxdimension * fbit_size * sizeof(bit_type));
+    col= (bit_type *)realloc(col, maxdimension * fbit_size * sizeof(bit_type));
 }
 
 

@@ -287,10 +287,11 @@ void resetPicrossSolverGlobals()
                 solutionStatus |= SOLVER_STATUS_CONTRA;
         }
         
-        if( sl != NULL )
-            free_solution(sol);
+        if( sol != NULL )
+            free_solution( sol );
+        sol = NULL;
         
-        free( puz );
+        free_puzzle( puz );
         puz = NULL;
         
         
