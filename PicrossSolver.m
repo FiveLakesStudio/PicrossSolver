@@ -112,12 +112,12 @@ void resetPicrossSolverGlobals()
 
 
 
-- (void)analysePicData:(PicData *)picData withPuzzleDescritpion:(PicPuzzleDescription *)puzzleDesc
+- (unsigned long)analysePicData:(PicData *)picData withPuzzleDescritpion:(PicPuzzleDescription *)puzzleDesc
 {
     @synchronized( self )
     {
         if( picData == nil  ||  puzzleDesc == nil )
-            return;
+            return SOLVER_STATUS_ERROR;
         
         resetPicrossSolverGlobals();
         
@@ -134,7 +134,7 @@ void resetPicrossSolverGlobals()
         // The solver API is a C based API so convert the XML to a CSTR
         const char *puzzleCStr = [puzzleXMLStr cStringUsingEncoding:NSUTF8StringEncoding];
         if( puzzleCStr == NULL )
-            return;
+            return SOLVER_STATUS_ERROR;
         
         // Parse the C string into an xmlDoc so we can load the puzzle
         xmlDoc *xmlDoc = xmlReadMemory(puzzleCStr, strlen(puzzleCStr), "http://fivelakesstudio.com/picrosshd.xml", NULL, XML_PARSE_DTDLOAD | XML_PARSE_NOBLANKS);
@@ -146,7 +146,7 @@ void resetPicrossSolverGlobals()
         }
         
         if( puz == NULL )
-            return;
+            return SOLVER_STATUS_ERROR;
         
         /* Initialize the bitstring handling code for puzzles of our size */
         fbit_init(puz->ncolor);
@@ -170,6 +170,8 @@ void resetPicrossSolverGlobals()
                 break;
             }
         }
+        
+        unsigned long solutionStatus = SOLVER_STATUS_UNKNOWN;
         
         // Find solutions
         //
@@ -235,8 +237,7 @@ void resetPicrossSolverGlobals()
                  * solution and then resume the search to see if we can find a
                  * differnt one.
                  */
-                if (VA) printf("A: FOUND ONE SOLUTION - CHECKING FOR MORE\n%s",
-                               puz->found);
+                if (VA) printf("A: FOUND ONE SOLUTION - CHECKING FOR MORE\n%s", puz->found);
                 backtrack(puz,sol);
             }
             
@@ -245,52 +246,64 @@ void resetPicrossSolverGlobals()
             for(int i= 0; i < puz->nset; i++)
                 totallines+= puz->n[i];
             
-            NSLog( @"isunique:%d iscomplete:%d", isunique, iscomplete );
-            
+            // Figure out the puzzle solution status
+            //
             if( !iscomplete  &&  puz->found == NULL )
-                NSLog( @"stalled ");
-            else if (rc)
+            {
+                solutionStatus = SOLVER_STATUS_STALLED;
+            }
+            else if( rc )
             {
                 if( isunique )
                 {
                     if( nlines <= totallines )
-                        NSLog( @"trivial ");
-                    if (guesses == 0 && probes == 0)
                     {
-                        if (contrafound > 0)
-                            NSLog(@"unique depth-%d ",contradepth);
+                        solutionStatus |= SOLVER_STATUS_TRIVIAL;
+                    }
+                    if( guesses == 0  &&  probes == 0 )
+                    {
+                        if( contrafound > 0 )
+                            solutionStatus |= SOLVER_STATUS_CONTRA;         // NSLog(@"unique depth-%d ",contradepth);
                         else
-                            NSLog(@"unique logical ");
+                            solutionStatus |= SOLVER_STATUS_UNIQUE | SOLVER_STATUS_LOGICAL;
                     }
                     else
-                        NSLog(@"unique ");
+                        solutionStatus |= SOLVER_STATUS_UNIQUE;
                 }
                 else if (puz->found == NULL)
                 {
-                    NSLog(@"solvable ");
+                    solutionStatus |= SOLVER_STATUS_NOSOLUTION;
                 }
                 else
                 {
-                    NSLog(@"multiple ");
+                    solutionStatus |= SOLVER_STATUS_MULTIPLE;
                 }
             }
             else if (puz->found != NULL)
             {
-                NSLog(@"unique ");
+                solutionStatus |= SOLVER_STATUS_UNIQUE;
             }
             else
-                NSLog(@"contradition ");
-            
-            if( puz->id != NULL )
-                printf(" \t %s\n", puz->id);    /* !! TC !! Added */
-            
+                solutionStatus |= SOLVER_STATUS_CONTRA;
         }
         
-        if (sl != NULL)
+        if( sl != NULL )
             free_solution(sol);
         
         free( puz );
         puz = NULL;
+        
+        
+        if( solutionStatus & SOLVER_STATUS_ERROR )      NSLog( @"Picross Solution Error" );
+        if( solutionStatus & SOLVER_STATUS_STALLED )    NSLog( @"Picross Solution SOLVER_STATUS_STALLED" );
+        if( solutionStatus & SOLVER_STATUS_NOSOLUTION ) NSLog( @"Picross Solution SOLVER_STATUS_NOSOLUTION" );
+        if( solutionStatus & SOLVER_STATUS_MULTIPLE )   NSLog( @"Picross Solution SOLVER_STATUS_MULTIPLE" );
+        if( solutionStatus & SOLVER_STATUS_TRIVIAL )    NSLog( @"Picross Solution SOLVER_STATUS_TRIVIAL" );
+        if( solutionStatus & SOLVER_STATUS_CONTRA )     NSLog( @"Picross Solution SOLVER_STATUS_CONTRA" );
+        if( solutionStatus & SOLVER_STATUS_UNIQUE )     NSLog( @"Picross Solution SOLVER_STATUS_UNIQUE" );
+        if( solutionStatus & SOLVER_STATUS_LOGICAL )    NSLog( @"Picross Solution SOLVER_STATUS_LOGICAL" );
+        
+        return solutionStatus;
     }
 }
 
