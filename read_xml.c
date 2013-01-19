@@ -307,32 +307,32 @@ void parse_xml_puzzle(xmlNode *root, Puzzle *puz)
     	if (!strcasecmp((char *)node->name,"author"))
         {
             if (puz->author != NULL) free(puz->author);
-            puz->author= ((char *)xmlNodeGetContent(node));
+            puz->author = ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"title"))
         {
             if (puz->title != NULL) free(puz->title);
-            puz->title= ((char *)xmlNodeGetContent(node));
+            puz->title = ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"copyright"))
         {
             if (puz->copyright != NULL) free(puz->copyright);
-            puz->copyright= ((char *)xmlNodeGetContent(node));
+            puz->copyright = ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"description"))
         {
             if (puz->description != NULL) free(puz->description);
-            puz->description= ((char *)xmlNodeGetContent(node));
+            puz->description = ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"source"))
         {
             if (puz->source != NULL) free(puz->source);
-            puz->source= ((char *)xmlNodeGetContent(node));
+            puz->source = ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"id"))
         {
             if (puz->id != NULL) free(puz->id);
-            puz->id= ((char *)xmlNodeGetContent(node));
+            puz->id = ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"color"))
         {
@@ -495,17 +495,17 @@ Puzzle *load_xml_puzzle_from_xmlDoc(xmlDoc *xml, int index)
     	if (!strcasecmp((char *)node->name,"author"))
         {
             if (puz->author == NULL)
-                puz->author= ((char *)xmlNodeGetContent(node));
+                puz->author = ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"title"))
         {
             if (puz->seriestitle != NULL) free(puz->seriestitle);
-            puz->seriestitle= ((char *)xmlNodeGetContent(node));
+            puz->seriestitle = ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"copyright"))
         {
             if (puz->copyright == NULL)
-                puz->copyright= ((char *)xmlNodeGetContent(node));
+                puz->copyright = ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"source"))
         {

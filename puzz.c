@@ -37,13 +37,14 @@ void free_puzzle(Puzzle *puz)
     line_t i,k;
     color_t c;
     SolutionList *sl, *nsl;
-
+    
     safefree(puz->source);
     safefree(puz->id);
     safefree(puz->title);
     safefree(puz->seriestitle);
     safefree(puz->author);
     safefree(puz->copyright);
+    safefree(puz->description);
 
     for (c= 0; c < puz->ncolor; c++)
     {
@@ -51,28 +52,28 @@ void free_puzzle(Puzzle *puz)
     	safefree(puz->color[c].rgb);
     }
     safefree(puz->color);
-
+    
     for (k= 0; k < puz->nset; k++)
     {
-	for (i= 0; i < puz->n[k]; i++)
-	{
-	    safefree(puz->clue[k][i].length);
-	    safefree(puz->clue[k][i].color);
-        
-        safefree(puz->clue[k][i].lpos );
-        safefree(puz->clue[k][i].rpos );
-        safefree(puz->clue[k][i].lcov );
-        safefree(puz->clue[k][i].rcov );
-	}
-	safefree(puz->clue[k]);
+        for (i= 0; i < puz->n[k]; i++)
+        {
+            safefree(puz->clue[k][i].length);
+            safefree(puz->clue[k][i].color);
+            
+            safefree(puz->clue[k][i].lpos );
+            safefree(puz->clue[k][i].rpos );
+            safefree(puz->clue[k][i].lcov );
+            safefree(puz->clue[k][i].rcov );
+        }
+        safefree(puz->clue[k]);
     }
-
+    
     for (sl= puz->sol; sl != NULL; sl= nsl)
     {
     	nsl= sl->next;
-	free_solution_list(sl);
+        free_solution_list(sl);
     }
-
+    
     safefree( puz->job );
     safefree( puz->found );
     safefree( puz->history );
@@ -88,11 +89,11 @@ void free_puzzle(Puzzle *puz)
 color_t find_color(Puzzle *puz, char *name)
 {
     color_t i;
-
+    
     for (i= 0; i < puz->ncolor; i++)
     	if (!strcasecmp(name, puz->color[i].name))
-	    return i;
-
+            return i;
+    
     return -1;
 }
 
@@ -104,11 +105,11 @@ color_t find_color(Puzzle *puz, char *name)
 color_t find_color_char(Puzzle *puz, char ch)
 {
     color_t i;
-
+    
     for (i= 0; i < puz->ncolor; i++)
     	if (ch == puz->color[i].ch)
-	    return i;
-
+            return i;
+    
     return -1;
 }
 
@@ -121,11 +122,11 @@ color_t new_color(Puzzle *puz)
     /* If necessary, enlarge the color array */
     if (puz->ncolor >= puz->scolor)
     {
-	puz->scolor+= 3;
-	puz->color= (ColorDef *)realloc(puz->color,
-	    puz->scolor * sizeof(ColorDef));
+        puz->scolor+= 3;
+        puz->color= (ColorDef *)realloc(puz->color,
+                                        puz->scolor * sizeof(ColorDef));
     }
-
+    
     return puz->ncolor++;
 }
 
@@ -139,17 +140,17 @@ color_t find_or_add_color(Puzzle *puz, char *name)
 {
     color_t i;
     ColorDef *c;
-
+    
     if ((i= find_color(puz,name)) >= 0)
-	return i;
-
+        return i;
+    
     /* If necessary, enlarge the color array */
     i= new_color(puz);
     c= &puz->color[i];
     c->name= strdup(name);
     c->rgb= NULL;
     c->ch= '\0';
-
+    
     return i;
 }
 
@@ -163,7 +164,7 @@ int add_color(Puzzle *puz, char *name, char *rgb, char ch)
 {
     color_t i= find_or_add_color(puz,name);
     ColorDef *c= &puz->color[i];
-
+    
     if (c->rgb != NULL) free(c->rgb);
     c->rgb= safedup(rgb);
     c->ch= ch;
