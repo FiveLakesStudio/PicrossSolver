@@ -129,7 +129,7 @@ void resetPicrossSolverGlobals()
         FLXMLData *puzzleSet = [[FLXMLData alloc] initElement:@"puzzleset"];
         [puzzleSet addNode:[puzzleDesc solverXMLForPicData:picData]];
         NSString  *puzzleXMLStr = puzzleSet.toXML;
-        NSLog( @"doDevButton dump:\n%@", puzzleXMLStr );
+        //NSLog( @"doDevButton dump:\n%@", puzzleXMLStr );
         
         // The solver API is a C based API so convert the XML to a CSTR
         const char *puzzleCStr = [puzzleXMLStr cStringUsingEncoding:NSUTF8StringEncoding];
