@@ -408,12 +408,12 @@ void right_undo(Puzzle *puz, Clue *clue, Cell **line, line_t i, bit_type *new)
 
 line_t *left_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
 {
-    line_t b,j;
-    color_t currcolor, nextcolor;
-    int backtracking, state;
+    line_t b=0, j=0;
+    color_t currcolor=0x00, nextcolor=0x00;
+    int backtracking = 0, state = 0;
     Clue *clue= &puz->clue[k][i];
     Cell **cell= sol->line[k][i];
-    line_t *pos, *cov;
+    line_t *pos = NULL, *cov = NULL;
     
     /* The pos array contains current position of each block, or more
      * specifically the first cell of each block.  It's terminated by a -1.
@@ -812,7 +812,7 @@ line_t *left_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
                 
                 while(cov[b] < 0 || pos[b] < cov[b])
                 {
-                    if (!may_be(cell[j], currcolor))
+                    if (!may_be(cell[j], currcolor))     // !! TC !! Crashed here once.  b was -1, j was -18381
                     {
                         if (D)
                             printf("L: ADVANCE HIT OBSTACLE ");
@@ -1458,7 +1458,7 @@ bit_type *lro_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i)
             rb++;
         }
         /* Do we enter a right[] block ? */
-        if (rgap && rb < nblock && right[rb] - clue->length[rb] + 1 == j)
+        if (rgap && rb < nblock && right[rb] - clue->length[rb] + 1 == j)    // !! TC !! EXC_BAD_ACCESS j=0 rb=0 rgap=1 right=null nbcolor=null
         {
             rgap= 0;
         }
