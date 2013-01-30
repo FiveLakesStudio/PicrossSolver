@@ -480,7 +480,7 @@ Puzzle *load_xml_puzzle_from_xmlDoc(xmlDoc *xml, int index)
     int n;
     
     if (xml == NULL)
-    	fail("Could not load puzzle from %s\n",srcname);
+    	fail( "Could not load puzzle\n" );
     
     root= xmlDocGetRootElement(xml);
     if (strcasecmp((char *)root->name,"puzzleset"))
@@ -522,7 +522,7 @@ Puzzle *load_xml_puzzle_from_xmlDoc(xmlDoc *xml, int index)
     return puz;
 }
 
-
+/*
 Puzzle *load_xml_puzzle(int index)
 {
     xmlDoc *xml;
@@ -540,5 +540,6 @@ Puzzle *load_xml_puzzle(int index)
     
     return puz;
 }
+*/
 
 #endif
