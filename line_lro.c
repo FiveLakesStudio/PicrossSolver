@@ -1058,6 +1058,9 @@ line_t *right_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
                  * over white cells until we find one.
                  */
                 
+                if( pos[b] < 0 )  // !! TC !! I added this to try and prevent a crash
+                    return NULL;
+                
                 while (!may_be(cell[pos[b]], currcolor))
                 {
                     if (D)
@@ -1410,8 +1413,7 @@ bit_type *lro_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i)
                CLUENAME(puz->type,k),i);
     right= right_solve(puz, sol, k, i, 1);
     if (right == NULL)
-    	fail("Left solution but no right solution for %s %d\n",
-             cluename(puz->type,k), i);
+    	return NULL;        // fail("Left solution but no right solution for %s %d\n", cluename(puz->type,k), i);   // !! TC !! Try to prevent a crash
     
     if (D)
     {

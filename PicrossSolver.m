@@ -34,6 +34,8 @@ int mayguess= 1, mayprobe= 1, mergeprobe= 0, maylinesolve= 1;
 
 void fail(const char *fmt, ...)
 {
+    fprintf(stderr, "PicrossSolver Fail Called!\n" );
+    
     va_list ap;
     va_start( ap,fmt );
     vfprintf( stderr, fmt, ap );
