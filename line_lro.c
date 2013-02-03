@@ -812,7 +812,7 @@ line_t *left_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
                 
                 while(cov[b] < 0 || pos[b] < cov[b])
                 {
-                    if (!may_be(cell[j], currcolor))     // !! TC !! Crashed here once.  b was -1, j was -18381
+                    if( cell[j] == NULL  ||  !may_be(cell[j], currcolor) )     // !! TC !! Crashed here once.  b was -1,  cell[j]=NULL
                     {
                         if (D)
                             printf("L: ADVANCE HIT OBSTACLE ");
