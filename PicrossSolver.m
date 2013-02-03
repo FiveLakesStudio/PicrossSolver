@@ -154,6 +154,8 @@ void resetPicrossSolverGlobals()
         /* Initialize the bitstring handling code for puzzles of our size */
         fbit_init(puz->ncolor);
         
+        if (mergeprobe) init_merge(puz);
+        
         /* preallocate some arrays */
         init_line(puz);
         

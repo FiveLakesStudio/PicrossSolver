@@ -15,10 +15,10 @@
 
 #include "pbnsolve.h"
 
-int merging= 0;		/* Are we currently merging? */
-int merge_no= -1;	/* Guess count.  If 0 we are on first guess for cell */
-MergeElem *merge_list= NULL; /* List of consequences of all guesses so far */
-MergeElem *mergegrid;	/* Grid of merge cells */
+int merging= 0;                 /* Are we currently merging? */
+int merge_no= -1;               /* Guess count.  If 0 we are on first guess for cell */
+MergeElem *merge_list= NULL;    /* List of consequences of all guesses so far */
+MergeElem *mergegrid = NULL;	/* Grid of merge cells */
 
 extern bit_type *oldval;
 
@@ -27,6 +27,9 @@ extern bit_type *oldval;
 
 void init_merge(Puzzle *puz)
 {
+    if( mergegrid != NULL )
+        free( mergegrid );
+    
     mergegrid= (MergeElem *)calloc(puz->ncells, sizeof(MergeElem));
 }
 

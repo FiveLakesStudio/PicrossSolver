@@ -56,17 +56,24 @@ static long probeseq_res[N_PRBRES][N_PRBSRC]= {{0,0,0},{0,0,0},{0,0,0}};
  * of the previous probe.
  */
 
-bit_type *probepad= NULL;
-int probing= 0;
+bit_type *probepad     = NULL;
+size_t    probepadSize = 0;
+int       probing      = 0;
 
 /* Create or clear the probe pad */
 void init_probepad(Puzzle *puz)
 {
-    if (!probepad)
-        probepad= (bit_type *)
-	    calloc(puz->ncells, fbit_size * sizeof(bit_type));
-    else
-    	memset(probepad, 0, puz->ncells * fbit_size * sizeof(bit_type));
+    size_t size = puz->ncells * fbit_size * sizeof(bit_type);
+    
+    if( size > probepadSize )
+    {
+        free( probepad );
+        probepadSize = size;
+        probepad = (bit_type *)malloc( size );
+        //probepad = (bit_type *)calloc( puz->ncells, fbit_size * sizeof(bit_type) );
+    }
+    
+   	memset( probepad, 0, probepadSize );
 }
 
 
