@@ -299,14 +299,14 @@ void resetPicrossSolverGlobals()
         safefree( goal );     goal    = NULL;
         free_puzzle( puz );   puz     = NULL;   altsoln = NULL;
         
-        if( solutionStatus & SOLVER_STATUS_ERROR )      NSLog( @"Picross Solution Error" );
-        if( solutionStatus & SOLVER_STATUS_STALLED )    NSLog( @"Picross Solution SOLVER_STATUS_STALLED" );
-        if( solutionStatus & SOLVER_STATUS_NOSOLUTION ) NSLog( @"Picross Solution SOLVER_STATUS_NOSOLUTION" );
-        if( solutionStatus & SOLVER_STATUS_MULTIPLE )   NSLog( @"Picross Solution SOLVER_STATUS_MULTIPLE" );
-        if( solutionStatus & SOLVER_STATUS_TRIVIAL )    NSLog( @"Picross Solution SOLVER_STATUS_TRIVIAL" );
-        if( solutionStatus & SOLVER_STATUS_CONTRA )     NSLog( @"Picross Solution SOLVER_STATUS_CONTRA" );
-        if( solutionStatus & SOLVER_STATUS_UNIQUE )     NSLog( @"Picross Solution SOLVER_STATUS_UNIQUE" );
-        if( solutionStatus & SOLVER_STATUS_LOGICAL )    NSLog( @"Picross Solution SOLVER_STATUS_LOGICAL" );
+        //if( solutionStatus & SOLVER_STATUS_ERROR )      NSLog( @"Picross Solution Error" );
+        //if( solutionStatus & SOLVER_STATUS_STALLED )    NSLog( @"Picross Solution SOLVER_STATUS_STALLED" );
+        //if( solutionStatus & SOLVER_STATUS_NOSOLUTION ) NSLog( @"Picross Solution SOLVER_STATUS_NOSOLUTION" );
+        //if( solutionStatus & SOLVER_STATUS_MULTIPLE )   NSLog( @"Picross Solution SOLVER_STATUS_MULTIPLE" );
+        //if( solutionStatus & SOLVER_STATUS_TRIVIAL )    NSLog( @"Picross Solution SOLVER_STATUS_TRIVIAL" );
+        //if( solutionStatus & SOLVER_STATUS_CONTRA )     NSLog( @"Picross Solution SOLVER_STATUS_CONTRA" );
+        //if( solutionStatus & SOLVER_STATUS_UNIQUE )     NSLog( @"Picross Solution SOLVER_STATUS_UNIQUE" );
+        //if( solutionStatus & SOLVER_STATUS_LOGICAL )    NSLog( @"Picross Solution SOLVER_STATUS_LOGICAL" );
         
         return solutionStatus;
     }
