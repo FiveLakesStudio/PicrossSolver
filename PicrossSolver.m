@@ -178,6 +178,10 @@ void resetPicrossSolverGlobals()
         
         unsigned long solutionStatus = SOLVER_STATUS_UNKNOWN;
         
+        // Default scoring rule - Simpson
+        //
+        set_scoring_rule( 4, 1 );
+        
         // Find solutions
         //
         {

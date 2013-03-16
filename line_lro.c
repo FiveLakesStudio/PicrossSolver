@@ -1058,7 +1058,7 @@ line_t *right_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
                  * over white cells until we find one.
                  */
                 
-                if( pos[b] < 0 )  // !! TC !! I added this to try and prevent a crash
+                if( b < 0  ||  pos[b] < 0 )  // !! TC !! I added this to try and prevent a crash
                     return NULL;
                 
                 while (!may_be(cell[pos[b]], currcolor))
@@ -1303,8 +1303,14 @@ line_t *right_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
                     printf("L: ADVANCE BLOCK %d (j=%d,cc=%d,pos=%d,cov=%d)\n",
                            b,j,currcolor,pos[b],cov[b]);
                 
+                if( b < 0 )
+                    return NULL;
+                
                 while(cov[b] < 0 || pos[b] > cov[b])
                 {
+                    if( j < 0 )
+                        return NULL;
+                    
                     if (!may_be(cell[j], currcolor))
                     {
                         if (D)

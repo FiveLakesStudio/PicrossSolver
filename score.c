@@ -106,9 +106,9 @@ float line_score_math(Puzzle *puz, Solution *sol, dir_t k, line_t i)
 float line_score_simpson(Puzzle *puz, Solution *sol, dir_t k, line_t i)
 {
     Clue *clue= &puz->clue[k][i];
-/*printf(" Scoring %s %d slack=%d n=%d len=%d score=%d\n",
-cluename(puz->type,k),i,clue->slack,clue->n,clue->linelen,
-    (clue->slack + 1)*(clue->n + 1) - clue->linelen - 2);*/
+    /*printf(" Scoring %s %d slack=%d n=%d len=%d score=%d\n",
+     cluename(puz->type,k),i,clue->slack,clue->n,clue->linelen,
+     (clue->slack + 1)*(clue->n + 1) - clue->linelen - 2);*/
     return (clue->slack + 1)*(clue->n + 1) - clue->linelen - 2;
 }
 
@@ -149,8 +149,8 @@ float cell_score_sum(Puzzle *puz, Solution *sol, line_t i, line_t j)
 {
     float si= puz->clue[0][i].score;
     float sj= puz->clue[1][j].score;
-/*printf("   Cell (%d,%d) row%dscore=%.0f col%dscore=%.0f sum=%.0f\n",i,j,
-	i,si,j,sj,si+sj);*/
+    /*printf("   Cell (%d,%d) row%dscore=%.0f col%dscore=%.0f sum=%.0f\n",i,j,
+     i,si,j,sj,si+sj);*/
     return si+sj;
 }
 
@@ -176,13 +176,13 @@ float cell_score_adhoc(Puzzle *puz, Solution *sol, line_t i, line_t j)
 float cell_score_neighbor(Puzzle *puz, Solution *sol, line_t i, line_t j)
 {
     int count= 4;
-
+    
     /* Count number of solved neighbors or edges */
     if (i == 0 || sol->line[0][i-1][j]->n == 1) count--;
     if (i == sol->n[0]-1 || sol->line[0][i+1][j]->n == 1) count--;
     if (j == 0 || sol->line[0][i][j-1]->n == 1) count--;
     if (sol->line[0][i][j+1]==NULL || sol->line[0][i][j+1]->n == 1) count--;
-
+    
     return count;
 }
 
@@ -232,14 +232,14 @@ color_t pick_color_min(Puzzle *puz, Solution *sol, Cell *cell)
 color_t pick_color_rand(Puzzle *puz, Solution *sol, Cell *cell)
 {
     color_t c, bestc, n= 0;
-
+    
     for(c= 0; c < puz->ncolor; c++)
-	if (may_be(cell,c))
-	{
-	    n++;
-	    if (rand() < RAND_MAX/n)
-	    	bestc= c;
-	}
+        if (may_be(cell,c))
+        {
+            n++;
+            if (rand() < RAND_MAX/n)
+                bestc= c;
+        }
     if (n <= 1) fail("Picked a cell to guess on with one color\n");
     return bestc;
 }
@@ -255,41 +255,41 @@ color_t pick_color_contrast(Puzzle *puz, Solution *sol, Cell *cell)
     color_t c, bestc, n, bestn= -1;
     line_t i= cell->line[0];
     line_t j= cell->line[1];
-
+    
     for(c= 0; c < puz->ncolor; c++)
-	if (may_be(cell,c))
-	{
-	    n= 0;
-	    if (i > 0)
-	    {
-		if (!may_be(sol->line[0][i-1][j], c)) n++;
-	    }
-	    else if (c != 0) n++;
-
-	    if (i < sol->n[0]-2)
-	    {
-	    	if (!may_be(sol->line[0][i+1][j], c)) n++;
-	    }
-	    else if (c != 0) n++;
-
-	    if (j > 0)
-	    {
-	    	if (!may_be(sol->line[0][i][j-1], c)) n++;
-	    }
-	    else if (c != 0) n++;
-
-	    if (j < sol->n[1]-2)
-	    {
-	    	if (!may_be(sol->line[0][i][j+1], c)) n++;
-	    }
-	    else if (c != 0) n++;
-
-	    if (n > bestn)
-	    {
-		bestc= c;
-	     	bestn= n;
-	    }
-	}
+        if (may_be(cell,c))
+        {
+            n= 0;
+            if (i > 0)
+            {
+                if (!may_be(sol->line[0][i-1][j], c)) n++;
+            }
+            else if (c != 0) n++;
+            
+            if (i < sol->n[0]-2)
+            {
+                if (!may_be(sol->line[0][i+1][j], c)) n++;
+            }
+            else if (c != 0) n++;
+            
+            if (j > 0)
+            {
+                if (!may_be(sol->line[0][i][j-1], c)) n++;
+            }
+            else if (c != 0) n++;
+            
+            if (j < sol->n[1]-2)
+            {
+                if (!may_be(sol->line[0][i][j+1], c)) n++;
+            }
+            else if (c != 0) n++;
+            
+            if (n > bestn)
+            {
+                bestc= c;
+                bestn= n;
+            }
+        }
     return bestc;
 }
 
@@ -308,23 +308,23 @@ color_t pick_color_prob(Puzzle *puz, Solution *sol, Cell *cell)
     color_t c, bestc;
     line_t n, bestn= -9999;
     int k;
-
+    
     for(c= 0; c < puz->ncolor; c++)
-	if (may_be(cell,c))
-	{
-	    /* Add up number of cells of this color remaining in all the lines
-	     * crossing this cell.  */
-	    n= 0;
-	    for (k= 0; k < puz->nset; k++)
-		n+= puz->clue[k][cell->line[k]].colorcnt[c];
-
-	    /* Largest number is the one we want */
-	    if (n > bestn)
-	    {
-		bestn= n;
-		bestc= c;
-	    }
-	}
+        if (may_be(cell,c))
+        {
+            /* Add up number of cells of this color remaining in all the lines
+             * crossing this cell.  */
+            n= 0;
+            for (k= 0; k < puz->nset; k++)
+                n+= puz->clue[k][cell->line[k]].colorcnt[c];
+            
+            /* Largest number is the one we want */
+            if (n > bestn)
+            {
+                bestn= n;
+                bestc= c;
+            }
+        }
     return bestc;
 }
 
@@ -336,7 +336,7 @@ color_t (*pick_color)(Puzzle *puz, Solution *sol, Cell *cell);
 /* ---------------------------------------------------------------- */
 
 /* BOOKKEEPING_ON - Start continuously updating the color count and score
- * arrays in the Clue data structure.  
+ * arrays in the Clue data structure.
  */
 
 
@@ -347,58 +347,58 @@ void bookkeeping_on(Puzzle *puz, Solution *sol)
     color_t c;
     Clue *clue;
     Cell *cell;
-
+    
     /* Update the bookkeeping flag */
     if (bookkeeping) return;
     bookkeeping= 1;
-
+    
     for (k= 0; k < puz->nset; k++)
     {
-	for (i= 0; i < puz->n[k]; i++)
-	{
-	    clue= &puz->clue[k][i];
-	    nsolve= 0;
-
-	    /* initialize color count array */
-	    if (count_colors)
-	    {
-		/* Add up clue values to get number of cells of each color */
-		clue->colorcnt[0]= clue->linelen;
-		for (j= 0; j < clue->n; j++)
-		{
-		    clue->colorcnt[0]-= clue->length[j];
-		    clue->colorcnt[clue->color[j]]+= clue->length[j];
-		}
-	    }
-
-	    if (count_colors || score_adjust)
-	    {
-		/* Scan line for solved cells. Subtract one from each color
-		 * count for each solved cell of that color */
-		for (j= 0; (cell= sol->line[k][i][j]) != NULL; j++)
-		    if (cell->n == 1)
-		    {
-			nsolve++;
-			if (count_colors)
-			{
-			    /* Find color of the cell */
-			    for(c= 0; c < puz->ncolor && !may_be(cell,c); c++)
-				;
-			    clue->colorcnt[c]--;
-			}
-
-		    }
-	    }
-
-	    /* If we have a line scoring function, run it, now that color
-	     * counts are correct */
-	    if (line_score != NULL)
-		clue->score= (*line_score)(puz, sol, k, i);
-
-	    /* Now apply adjustments for solved cells st line score */
-	    if (score_adjust)
-		clue->score-= score_adjust * nsolve;
-	}
+        for (i= 0; i < puz->n[k]; i++)
+        {
+            clue= &puz->clue[k][i];
+            nsolve= 0;
+            
+            /* initialize color count array */
+            if (count_colors)
+            {
+                /* Add up clue values to get number of cells of each color */
+                clue->colorcnt[0]= clue->linelen;
+                for (j= 0; j < clue->n; j++)
+                {
+                    clue->colorcnt[0]-= clue->length[j];
+                    clue->colorcnt[clue->color[j]]+= clue->length[j];
+                }
+            }
+            
+            if (count_colors || score_adjust)
+            {
+                /* Scan line for solved cells. Subtract one from each color
+                 * count for each solved cell of that color */
+                for (j= 0; (cell= sol->line[k][i][j]) != NULL; j++)
+                    if (cell->n == 1)
+                    {
+                        nsolve++;
+                        if (count_colors)
+                        {
+                            /* Find color of the cell */
+                            for(c= 0; c < puz->ncolor && !may_be(cell,c); c++)
+                                ;
+                            clue->colorcnt[c]--;
+                        }
+                        
+                    }
+            }
+            
+            /* If we have a line scoring function, run it, now that color
+             * counts are correct */
+            if (line_score != NULL)
+                clue->score= (*line_score)(puz, sol, k, i);
+            
+            /* Now apply adjustments for solved cells st line score */
+            if (score_adjust)
+                clue->score-= score_adjust * nsolve;
+        }
     }
 }
 
@@ -410,7 +410,7 @@ void bookkeeping_on(Puzzle *puz, Solution *sol)
 void bookkeeping_off()
 {
     if (count_colors || score_adjust)
-	bookkeeping= 0;
+        bookkeeping= 0;
 }
 
 
@@ -426,46 +426,46 @@ Cell *pick_a_cell(Puzzle *puz, Solution *sol)
     float score2=0, minscore2;
     int first= 1;
     Cell *cell, *favcell;
-
+    
     if (puz->type != PT_GRID)
     	fail("pick_a_cell() only works for grid puzzles");
-
+    
     for (j= 0; j < sol->n[1]; j++)
     {
     	for (i= 0; (cell= sol->line[1][j][i]) != NULL; i++)
-	{
-	    /* Not interested in solved cells */
-	    if (cell->n == 1) continue;
-
-	    score1= (*cell_score_1)(puz,sol,i,j);
-
-	    if (!first && score1 > minscore1)
-		continue;
-
-	    if (cell_score_2 != NULL)
-	    {
-		score2= (*cell_score_2)(puz,sol,i,j);
-		if (!first && score1 == minscore1 && score2 >= minscore2)
-		    continue;
-	    }
-	    else if (!first && score1 == minscore1)
-		continue;
-
-	    favcell= cell;
-	    first= 0;
-	    minscore1= score1;
-	    minscore2= score2;
-	    if (VG) printf("G: MAX CELL %d,%d SCORE=%f/%f\n",
-		i,j,score1,score2);
-	}
+        {
+            /* Not interested in solved cells */
+            if (cell->n == 1) continue;
+            
+            score1= (*cell_score_1)(puz,sol,i,j);
+            
+            if (!first && score1 > minscore1)
+                continue;
+            
+            if (cell_score_2 != NULL)
+            {
+                score2= (*cell_score_2)(puz,sol,i,j);
+                if (!first && score1 == minscore1 && score2 >= minscore2)
+                    continue;
+            }
+            else if (!first && score1 == minscore1)
+                continue;
+            
+            favcell= cell;
+            first= 0;
+            minscore1= score1;
+            minscore2= score2;
+            if (VG) printf("G: MAX CELL %d,%d SCORE=%f/%f\n",
+                           i,j,score1,score2);
+        }
     }
-
+    
     if (first)
     {
     	if (VA) printf("Called pick-a-cell on complete puzzle\n");
-	return NULL;
+        return NULL;
     }
-
+    
     return favcell;
 }
 
@@ -485,33 +485,33 @@ void solved_a_cell(Puzzle *puz, Cell *cell, int way)
 {
     int k;
     color_t c;
-
+    
     /* Update our master count of number of solved cells */
     puz->nsolved+= way;
-
+    
     if (!bookkeeping) return;
-
+    
     if (count_colors)
     {
-	/* If we are counting colors we need the color of the cell */
-	for(c= 0; c < puz->ncolor && !may_be(cell,c); c++)
-	    ;
+        /* If we are counting colors we need the color of the cell */
+        for(c= 0; c < puz->ncolor && !may_be(cell,c); c++)
+            ;
     }
     else if (!score_adjust)
-	return;
-
+        return;
+    
     /* If either count_colors or score_adjust is set, we need to do some
      * work on all lines containing this cell */
     for (k= 0; k < puz->nset; k++)
     {
-	Clue *clue= &(puz->clue[k][cell->line[k]]);
-
-	/* Update the score of the line, if we are doing that */
-	clue->score-= way*score_adjust;
-
-	/* Update the line's count of colors remaining */
-	if (count_colors)
-	    clue->colorcnt[c]+= way;
+        Clue *clue= &(puz->clue[k][cell->line[k]]);
+        
+        /* Update the score of the line, if we are doing that */
+        clue->score-= way*score_adjust;
+        
+        /* Update the line's count of colors remaining */
+        if (count_colors)
+            clue->colorcnt[c]+= way;
     }
 }
 
@@ -541,44 +541,44 @@ int set_scoring_rule(int n, int may_override)
 {
     if (have_set_scoring_rule && !may_override) return 1;
     have_set_scoring_rule= 1;
-
+    
     count_colors= 0;
     score_adjust= 0;
     switch (n)
     {
-    case 1:
-	/* Old SIMPLE algorithm */
-	cell_score_1= &cell_score_neighbor;
-	cell_score_2= NULL;
-	line_score= NULL;
-	pick_color= &pick_color_contrast;
-	return 1;
-
-    case 2:
-	/* Old ADHOC algorithm */
-	cell_score_1= &cell_score_neighbor;
-	cell_score_2= &cell_score_adhoc;
-	line_score= &line_score_adhoc;
-	pick_color= &pick_color_contrast;
-	return 1;
-
-    case 3:
-	/* Old MATH algorithm */
-	cell_score_1= &cell_score_neighbor;
-	cell_score_2= &cell_score_min;
-	line_score= &line_score_math;
-	pick_color= &pick_color_contrast;
-	return 1;
-
-    case 4: 
-	/* Simpson's algorithm - approximately */
-	cell_score_1= &cell_score_sum;
-	cell_score_2= NULL;
-	line_score= &line_score_simpson;
-	pick_color= &pick_color_prob; count_colors= 1;
-	score_adjust= 1;
-	return 1;
+        case 1:
+            /* Old SIMPLE algorithm */
+            cell_score_1= &cell_score_neighbor;
+            cell_score_2= NULL;
+            line_score= NULL;
+            pick_color= &pick_color_contrast;
+            return 1;
+            
+        case 2:
+            /* Old ADHOC algorithm */
+            cell_score_1= &cell_score_neighbor;
+            cell_score_2= &cell_score_adhoc;
+            line_score= &line_score_adhoc;
+            pick_color= &pick_color_contrast;
+            return 1;
+            
+        case 3:
+            /* Old MATH algorithm */
+            cell_score_1= &cell_score_neighbor;
+            cell_score_2= &cell_score_min;
+            line_score= &line_score_math;
+            pick_color= &pick_color_contrast;
+            return 1;
+            
+        case 4: 
+            /* Simpson's algorithm - approximately */
+            cell_score_1= &cell_score_sum;
+            cell_score_2= NULL;
+            line_score= &line_score_simpson;
+            pick_color= &pick_color_prob; count_colors= 1;
+            score_adjust= 1;
+            return 1;
     }
-
+    
     return 0;
 }
