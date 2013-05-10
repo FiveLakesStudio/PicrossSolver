@@ -33,6 +33,7 @@
  * saved position arrays that go in the puz->clue data structure.
  */
 
+static line_t maxnclue= 0;
 static line_t *lpos, *rpos, *gcov;
 static line_t *nbcolor;
 static bit_type *col;
@@ -41,7 +42,7 @@ bit_type *oldval;
 
 void init_line(Puzzle *puz)
 {
-    line_t maxnclue= 0, maxdimension= 0;
+    line_t maxdimension= 0;
     line_t i;
     dir_t k;
     
@@ -573,7 +574,7 @@ line_t *left_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
                     if (D)
                         printf("L: POS %d BLOCKED\n",pos[b]);
                     
-                    if (multicolor && !may_be_bg(cell[pos[b]]))
+                    if (multicolor && !may_be_bg(cell[pos[b]]))     // !! TC !! Caused Crash in Picross 3.2
                     {
                         /* We hit a cell that must be some color other
                          * than the color of the current block.  Only hope is to
