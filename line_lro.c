@@ -569,25 +569,32 @@ line_t *left_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
                  * over white cells until we find one.
                  */
                 
+                if( b < 0 )
+                    return NULL;
+                
                 while (!may_be(cell[pos[b]], currcolor))
                 {
                     if (D)
                         printf("L: POS %d BLOCKED\n",pos[b]);
                     
-                    if (multicolor && !may_be_bg(cell[pos[b]]))     // !! TC !! Caused Crash in Picross 3.2
+                    if( multicolor )
                     {
-                        /* We hit a cell that must be some color other
-                         * than the color of the current block.  Only hope is to
-                         * find a previously placed block that can be advanced to
-                         * cover it, so we backtrack.
-                         */
-                        if (D)
-                            printf("L: BACKTRACKING ON WRONG COLOR %d\n",pos[b]);
-                        j= pos[b];
-                        while (b > 1 && !may_be(cell[j], clue->color[b-1]))
-                            b--;
-                        state= BACKTRACK; goto next;
+                        if( !may_be_bg(cell[pos[b]]) )     // !! TC !! Caused Crash in Picross 3.2
+                        {
+                            /* We hit a cell that must be some color other
+                             * than the color of the current block.  Only hope is to
+                             * find a previously placed block that can be advanced to
+                             * cover it, so we backtrack.
+                             */
+                            if (D)
+                                printf("L: BACKTRACKING ON WRONG COLOR %d\n",pos[b]);
+                            j= pos[b];
+                            while (b > 1 && !may_be(cell[j], clue->color[b-1]))
+                                b--;
+                            state= BACKTRACK; goto next;
+                        }   
                     }
+                    
                     
                     if (D)
                         printf("L: SHIFT BLOCK TO %d\n",pos[b]+1);
@@ -671,6 +678,9 @@ line_t *left_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
                 
                 if (D)
                     printf("L: CHECKING FINAL SPACE\n");
+                
+                if( j < 0 )
+                    return NULL;
                 
                 if (cell[j] != NULL)
                 {
@@ -813,6 +823,9 @@ line_t *left_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
                 
                 while(cov[b] < 0 || pos[b] < cov[b])
                 {
+                    if( j < 0 )
+                        return NULL;
+                    
                     if( cell[j] == NULL  ||  !may_be(cell[j], currcolor) )     // !! TC !! Crashed here once.  b was -1,  cell[j]=NULL
                     {
                         if (D)

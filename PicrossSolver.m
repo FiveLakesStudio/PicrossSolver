@@ -164,7 +164,6 @@ void resetPicrossSolverGlobals()
         Solution     *sol           = NULL;
         bool          checkunique   = YES;
         char         *goal          = NULL;  // The correct solution
-        char         *altsoln       = NULL;
         
         // Find the goal
         for( sl = puz->sol; sl != NULL; sl = sl->next )
@@ -213,14 +212,6 @@ void resetPicrossSolverGlobals()
                      * The solution we found is unique if (3) is true and (4) is false.
                      */
                     isunique= (iscomplete && puz->nhist==0 && puz->found==NULL);
-                    
-                    /* If we know the puzzle is not unique, then it is because we
-                     * previously found another solution.  If checksolution is true,
-                     * and we went on to search more, then the first one must have
-                     * been the goal, so this one isn't.
-                     */
-                    if (checksolution && !isunique)
-                        altsoln= solution_string(puz,sol);
                     break;
                 }
                 
@@ -239,7 +230,6 @@ void resetPicrossSolverGlobals()
                 {
                     if (VA) puts("A: FOUND A SOLUTION THAT DOES NOT MATCH GOAL");
                     isunique= 0;
-                    altsoln= puz->found;
                     break;
                 }
                 /* Otherwise, there is nothing to do but to backtrack from the current
@@ -301,8 +291,8 @@ void resetPicrossSolverGlobals()
         sol = NULL;
         
         safefree( goal );     goal    = NULL;
-        free_puzzle( puz );   puz     = NULL;   altsoln = NULL;
-        
+        free_puzzle( puz );   puz     = NULL;
+                
         //if( solutionStatus & SOLVER_STATUS_ERROR )      NSLog( @"Picross Solution Error" );
         //if( solutionStatus & SOLVER_STATUS_STALLED )    NSLog( @"Picross Solution SOLVER_STATUS_STALLED" );
         //if( solutionStatus & SOLVER_STATUS_NOSOLUTION ) NSLog( @"Picross Solution SOLVER_STATUS_NOSOLUTION" );
