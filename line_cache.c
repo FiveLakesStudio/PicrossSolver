@@ -43,13 +43,13 @@
  */
 
 int nslot[]= {
-     25013,
-     50021,
+    25013,
+    50021,
     100003,
     200003,
     400009,
     800011,
-    	0};
+    0};
 
 /* Hash Element Structure.  clid is zero if this slot is empty.  "data" is
  * actually two variable length bit strings, oldstate and newstate, oldstate
@@ -59,7 +59,7 @@ int nslot[]= {
 typedef struct {
     line_t clid;	/* Clue ID.  Identifies the clue.  Part of key */
     bit_type data[2];	/* The old and new line states.  Actual length is
-                           2*hash.len */
+                         2*hash.len */
 } HashElem;
 
 #define clueid(e) (e)->clid
@@ -102,9 +102,9 @@ static bit_type *col;
 
 /* Forward declarations of some functions */
 void compress_line(Puzzle *puz, Solution *sol,
-		   dir_t k, line_t i, line_t ncell, bit_type *out);
+                   dir_t k, line_t i, line_t ncell, bit_type *out);
 void rev_compress_line(Puzzle *puz, Solution *sol,
-		   dir_t k, line_t i, line_t ncell, bit_type *out);
+                       dir_t k, line_t i, line_t ncell, bit_type *out);
 void uncompress_line(bit_type *in, int ncell, int ncolor, bit_type *out);
 void rev_uncompress_line(bit_type *in, int ncell, int ncolor, bit_type *out);
 void dump_comp(bit_type *c, int ncell, int ncolor);
@@ -152,13 +152,13 @@ void empty_hash(LineHash *hash)
     hash->lastslot= -1;
     if (nslot[hash->nsloti+1] > 0)
     {
-	hash->nslots= nslot[++hash->nsloti];
-	hash->flushat= hash->nslots * 9 / 10;
-	free(hash->hash);
-	hash->hash= (char *)calloc(hash->nslots, hash->esize);
+        hash->nslots= nslot[++hash->nsloti];
+        hash->flushat= hash->nslots * 9 / 10;
+        free(hash->hash);
+        hash->hash= (char *)calloc(hash->nslots, hash->esize);
     }
     else
-	memset(hash->hash, 0, hash->nslots * hash->esize);
+        memset(hash->hash, 0, hash->nslots * hash->esize);
     if (VH) printf("H: New hash size=%ld\n",hash->nslots);
     cache_flush++;
 }
@@ -175,28 +175,28 @@ int match_clue(Clue *clue, Puzzle *puz, int k, int n)
     Clue *c;
     int i, j;
     int len;
-
+    
     for (i= 0; i < n; i++)
     {
-	c= &(puz->clue[k][i]);
-	len= c->n;
-	if (len != clue->n) goto next;
-	/* Try matching two clues */
-	for (j= 0; j < len; j++)
-	{
-	    if (clue->length[j] != c->length[j] ||
-		clue->color[j] != c->color[j]) goto rev;
-	}
-	return clid[k][i];
-rev:	/* Try matching to reverse of clue */
-	if (len < 2) goto next;
-	for (j= 0; j < len; j++)
-	{
-	    if (clue->length[len-j-1] != c->length[j] ||
-		clue->color[len-j-1] != c->color[j]) goto next;
-	}
-	return -clid[k][i];
-next:;
+        c= &(puz->clue[k][i]);
+        len= c->n;
+        if (len != clue->n) goto next;
+        /* Try matching two clues */
+        for (j= 0; j < len; j++)
+        {
+            if (clue->length[j] != c->length[j] ||
+                clue->color[j] != c->color[j]) goto rev;
+        }
+        return clid[k][i];
+    rev:	/* Try matching to reverse of clue */
+        if (len < 2) goto next;
+        for (j= 0; j < len; j++)
+        {
+            if (clue->length[len-j-1] != c->length[j] ||
+                clue->color[len-j-1] != c->color[j]) goto next;
+        }
+        return -clid[k][i];
+    next:;
     }
     return 0;
 }
@@ -210,70 +210,70 @@ void init_cache(Puzzle *puz)
     int k, i, square;
     int nextclid= 1;
     int maxdimension= 0;
-
+    
     if (VH) printf("H: Initializing Hash.\n");
-
+    
     /* For now, this only works for grids */
     if (puz->type != PT_GRID)
     {
-	cachelines= 0;
-	return;
+        cachelines= 0;
+        return;
     }
-
+    
     /* Construct the hash for rows */
     init_hash(&(cache[D_ROW]), puz->n[D_COL], puz->ncolor);
-
+    
     /* Construct the hash for columns */
     square= (puz->n[D_ROW] == puz->n[D_COL]);
     if (!square)
     {
-	/* For rectangular puzzles,
-	 * we use separate caches for rows and columns */
-	init_hash(&(cache[D_COL]), puz->n[D_ROW], puz->ncolor);
-	alloc_hash(cache[D_ROW]);
-	if (VH) printf("H:   Using two hash tables.\n");
+        /* For rectangular puzzles,
+         * we use separate caches for rows and columns */
+        init_hash(&(cache[D_COL]), puz->n[D_ROW], puz->ncolor);
+        alloc_hash(cache[D_ROW]);
+        if (VH) printf("H:   Using two hash tables.\n");
     }
     else
     {
-	/* For square puzzles, we use just one cache but double size */
-	cache[D_ROW]->nsloti++;
-	cache[D_COL]= cache[D_ROW];
-	if (VH) printf("H:   Using one hash table.\n");
+        /* For square puzzles, we use just one cache but double size */
+        cache[D_ROW]->nsloti++;
+        cache[D_COL]= cache[D_ROW];
+        if (VH) printf("H:   Using one hash table.\n");
     }
     alloc_hash(cache[D_COL]);
-
+    
     /* Build clue id arrays */
     clid[D_ROW]= (line_t *)realloc(clid[D_ROW], sizeof(line_t) * puz->n[D_ROW]);
     clid[D_COL]= (line_t *)realloc(clid[D_COL], sizeof(line_t) * puz->n[D_COL]);
-
+    
     if (VH) printf("H:   Assigning Clue IDs:\n");
-
+    
     /* Assign a clue id to each row and column - not a terribly fast algorithm
      * but who cares?  Puzzles aren't that big. */
     for (k= 0; k < 2; k++)
     {
-	if (puz->n[k] > maxdimension) maxdimension= puz->n[k];
-
-	for (i= 0; i < puz->n[k]; i++)
-	{
-	    if ((clid[k][i]= match_clue(&(puz->clue[k][i]), puz, k, i)) == 0)
-	    {
-		if (k == 0 || !square ||
-		    (clid[k][i]= match_clue(&(puz->clue[k][i]),
-					    puz, 0, puz->n[0])) == 0)
-		{
-		    clid[k][i]= nextclid++;
-		}
-	    }
-	    if (VH) printf("H:     %s %d => %d\n",
-			cluename(puz->type,k), i, clid[k][i]);
-	}
+        if (puz->n[k] > maxdimension) maxdimension= puz->n[k];
+        
+        for (i= 0; i < puz->n[k]; i++)
+        {
+            if ((clid[k][i]= match_clue(&(puz->clue[k][i]), puz, k, i)) == 0)
+            {
+                if (k == 0 || !square ||
+                    (clid[k][i]= match_clue(&(puz->clue[k][i]),
+                                            puz, 0, puz->n[0])) == 0)
+                {
+                    clid[k][i]= nextclid++;
+                }
+            }
+            if (VH) printf("H:     %s %d => %d\n",
+                           cluename(puz->type,k), i, clid[k][i]);
+        }
     }
-
+    
     /* Allocate storage for a compressed row or column */
     tmp= (bit_type *)realloc(tmp,
-	    bit_size(maxdimension * puz->ncolor) * sizeof(bit_type));
-
+                             bit_size(maxdimension * puz->ncolor) * sizeof(bit_type));
+    
     /* Allocate storage for an uncompressed row or column */
     col= (bit_type *)realloc(col, maxdimension * fbit_size * sizeof(bit_type));
 }
@@ -287,10 +287,10 @@ bit_type hash_index(line_t clid, bit_type *line, int len)
 {
     int i;
     bit_type result= clid;
-
+    
     for (i= 0; i < len; i++)
 	/* This is  result= 9*result + line[i] */
-	result+= (result<<3) + line[i];
+        result+= (result<<3) + line[i];
     return result;
 }
 
@@ -308,36 +308,36 @@ int hash_find(LineHash *hash, line_t clid, bit_type *line)
     bit_type v= hash_index(clid, line, hash->len);
     int index= v % hash->nslots;
     int offset= (v % (hash->nslots - 2)) + 1;
-
+    
     if (VH) printf("H: hash search - index=%d offset=%d\n", index, offset);
     cache_req++;
-
+    
     for (i=0; i < hash->nslots; i++)
     {
-	e= HashSlot(hash,index);
-
-	/* check for empty slot */
-	if (clueid(e) == 0)
-	{
-	    if (VH) printf("H:   slot %d - empty\n", index);
-	    return index;
-	}
-
-	/* check for hit */
-	if (clueid(e) == clid && oldstate(e)[0] == line[0])
-	{
-	    for (j= 1; j < hash->len; j++)
-		if (oldstate(e)[j] != line[j])
-		    goto nope;
-	    if (VH) printf("H:   slot %d - matches\n", index);
-	    cache_hit++;
-	    return index;
-	nope:;
-	}
-	if (VH) printf("H:   slot %d - no match\n", index);
-
-	/* find index of next slot */
-	index= (index + offset) % hash->nslots;
+        e= HashSlot(hash,index);
+        
+        /* check for empty slot */
+        if (clueid(e) == 0)
+        {
+            if (VH) printf("H:   slot %d - empty\n", index);
+            return index;
+        }
+        
+        /* check for hit */
+        if (clueid(e) == clid && oldstate(e)[0] == line[0])
+        {
+            for (j= 1; j < hash->len; j++)
+                if (oldstate(e)[j] != line[j])
+                    goto nope;
+            if (VH) printf("H:   slot %d - matches\n", index);
+            cache_hit++;
+            return index;
+        nope:;
+        }
+        if (VH) printf("H:   slot %d - no match\n", index);
+        
+        /* find index of next slot */
+        index= (index + offset) % hash->nslots;
     }
     return -1;
 }
@@ -354,50 +354,50 @@ bit_type *line_cache(Puzzle *puz, Solution *sol, dir_t k, line_t i)
     HashElem *e;
     line_t this_clid= clid[k][i];
     line_t ncell= puz->clue[k][i].linelen;
-
+    
     if (VH) printf("H: checking cache for %s %i\n", cluename(puz->type,k),i);
-
+    
     cache[k]->lastslot= -1;
-
+    
     /* Get the line length if it wasn't passed to us */
-
+    
     /* Compress the current state of the line */
     if (this_clid > 0)
-	compress_line(puz, sol, k, i, ncell, tmp);
+        compress_line(puz, sol, k, i, ncell, tmp);
     else
-	rev_compress_line(puz, sol, k, i, ncell, tmp);
+        rev_compress_line(puz, sol, k, i, ncell, tmp);
     if (VH)
     {
-	printf("H: clueid=%d compressed line: ",this_clid);
-	dump_comp(tmp, ncell, puz->ncolor);
+        printf("H: clueid=%d compressed line: ",this_clid);
+        dump_comp(tmp, ncell, puz->ncolor);
     }
-
+    
     /* Look for a match in the hash table */
     index= hash_find(cache[k], abs(this_clid), tmp);
-
+    
     if (index < 0)
-      	/* Table is full - should never happen */
-	return NULL;
-
+    /* Table is full - should never happen */
+        return NULL;
+    
     e= HashSlot(cache[k], index);
     if (clueid(e) == 0)
     {
        	/* No matching table entry found */
-	cache[k]->lastslot= index;
-	return NULL;
+        cache[k]->lastslot= index;
+        return NULL;
     }
-
+    
     /* Uncompress the solution */
     if (this_clid > 0)
-	uncompress_line(newstate(cache[k],e), ncell, puz->ncolor, col);
+        uncompress_line(newstate(cache[k],e), ncell, puz->ncolor, col);
     else
-	rev_uncompress_line(newstate(cache[k],e), ncell, puz->ncolor, col);
+        rev_uncompress_line(newstate(cache[k],e), ncell, puz->ncolor, col);
     if (VH)
     {
-	printf("H: uncompressed solution:\n");
-	dump_lro_solve(puz, k, i, col);
+        printf("H: uncompressed solution:\n");
+        dump_lro_solve(puz, k, i, col);
     }
-
+    
     /* Return the solution */
     return col;
 }
@@ -412,39 +412,39 @@ void add_cache(Puzzle *puz, Solution *sol, dir_t k, line_t i)
 {
     HashElem *e;
     line_t ncell= puz->clue[k][i].linelen;
-
+    
     if (VH) printf("H: adding %s %i solution to cache %d\n",
-		cluename(puz->type,k),i,k);
-
+                   cluename(puz->type,k),i,k);
+    
     /* Empty the cache if it is too full */
     if (cache[k]->n > cache[k]->flushat)
     {
-	if (VH) printf("H: Flushing cache %d\n",k);
-	empty_hash(cache[k]);
-	/* Redo the find so lastslot will point to the right place */
-	hash_find(cache[k], clid[k][i], tmp);
+        if (VH) printf("H: Flushing cache %d\n",k);
+        empty_hash(cache[k]);
+        /* Redo the find so lastslot will point to the right place */
+        hash_find(cache[k], clid[k][i], tmp);
     }
     
     /* If no previous search, silently do nothing */
     if (cache[k]->lastslot < 0) return;
     cache_add++;
-
-
+    
+    
     e= HashSlot(cache[k], cache[k]->lastslot);
     clueid(e)= abs(clid[k][i]);
     memmove(oldstate(e), tmp, cache[k]->len * sizeof(bit_type));
     if (clid[k][i] > 0)
-	compress_line(puz, sol, k, i, ncell, newstate(cache[k],e));
+        compress_line(puz, sol, k, i, ncell, newstate(cache[k],e));
     else
-	rev_compress_line(puz, sol, k, i, ncell, newstate(cache[k],e));
+        rev_compress_line(puz, sol, k, i, ncell, newstate(cache[k],e));
     if (VH)
     {
-	printf("H: added in slot %ld:\n", cache[k]->lastslot);
-	printf("   clue id:  %d\n", clueid(e));
-	printf("   old state:  ");
-	dump_comp(oldstate(e), ncell, puz->ncolor);
-	printf("   new state:  ");
-	dump_comp(newstate(cache[k],e), ncell, puz->ncolor);
+        printf("H: added in slot %ld:\n", cache[k]->lastslot);
+        printf("   clue id:  %d\n", clueid(e));
+        printf("   old state:  ");
+        dump_comp(oldstate(e), ncell, puz->ncolor);
+        printf("   new state:  ");
+        dump_comp(newstate(cache[k],e), ncell, puz->ncolor);
     }
     cache[k]->n++;
 }
@@ -457,49 +457,49 @@ void add_cache(Puzzle *puz, Solution *sol, dir_t k, line_t i)
  */
 
 void compress_line(Puzzle *puz, Solution *sol,
-		   dir_t k, line_t i, line_t ncell, bit_type *out)
+                   dir_t k, line_t i, line_t ncell, bit_type *out)
 {
     int j, z, m;
     Cell **cell= sol->line[k][i];
     int bi= 0;            /* Currently storing into out[i] */
     int bn= _bit_intsiz;  /* First free bit in out[i] */
-
+    
     out[bi]= 0;
-
+    
 #ifdef LIMITCOLORS
     z= 0;
 #endif
-
+    
     for (j= 0; j < ncell; j++)
     {
 #ifdef LIMITCOLORS
-	m= puz->ncolor;
+        m= puz->ncolor;
 #else
-	for (z= 0; z < fbit_size; i++)
-	{
-	    /* number of bits we want from cell[j]->bit[z] */
-	    m= (z == fbit_size-1) ? puz->ncolor % _bit_intsize : _bit_intsize;
-
+        for (z= 0; z < fbit_size; i++)
+        {
+            /* number of bits we want from cell[j]->bit[z] */
+            m= (z == fbit_size-1) ? puz->ncolor % _bit_intsize : _bit_intsize;
+            
 #endif
-	    if (m > bn)
-	    {
-		out[bi]|= cell[j]->bit[z] >> (m - bn);
-		m-= bn;
-		out[++bi]= 0;
-		bn= _bit_intsiz;
-	    }
-	    if (m > 0 && m <= bn)
-	    {
-		out[bi]|= cell[j]->bit[z] << (bn - m);
-		bn-= m;
-		if (bn == 0)
-		{
-		    out[++bi]= 0;
-		    bn= _bit_intsiz;
-		}
-	    }
+            if (m > bn)
+            {
+                out[bi]|= cell[j]->bit[z] >> (m - bn);
+                m-= bn;
+                out[++bi]= 0;
+                bn= _bit_intsiz;
+            }
+            if (m > 0 && m <= bn)
+            {
+                out[bi]|= cell[j]->bit[z] << (bn - m);
+                bn-= m;
+                if (bn == 0)
+                {
+                    out[++bi]= 0;
+                    bn= _bit_intsiz;
+                }
+            }
 #ifndef LIMITCOLORS
-	}
+        }
 #endif
     }
 }
@@ -512,49 +512,49 @@ void compress_line(Puzzle *puz, Solution *sol,
  */
 
 void rev_compress_line(Puzzle *puz, Solution *sol,
-		   dir_t k, line_t i, line_t ncell, bit_type *out)
+                       dir_t k, line_t i, line_t ncell, bit_type *out)
 {
     int j, z, m;
     Cell **cell= sol->line[k][i];
     int bi= 0;            /* Currently storing into out[i] */
     int bn= _bit_intsiz;  /* First free bit in out[i] */
-
+    
     out[bi]= 0;
-
+    
 #ifdef LIMITCOLORS
     z= 0;
 #endif
-
+    
     for (j= ncell-1; j >= 0; j--)
     {
 #ifdef LIMITCOLORS
-	m= puz->ncolor;
+        m= puz->ncolor;
 #else
-	for (z= 0; z < fbit_size; i++)
-	{
-	    /* number of bits we want from cell[j]->bit[z] */
-	    m= (z == fbit_size-1) ? puz->ncolor % _bit_intsize : _bit_intsize;
-
+        for (z= 0; z < fbit_size; i++)
+        {
+            /* number of bits we want from cell[j]->bit[z] */
+            m= (z == fbit_size-1) ? puz->ncolor % _bit_intsize : _bit_intsize;
+            
 #endif
-	    if (m > bn)
-	    {
-		out[bi]|= cell[j]->bit[z] >> (m - bn);
-		m-= bn;
-		out[++bi]= 0;
-		bn= _bit_intsiz;
-	    }
-	    if (m > 0 && m <= bn)
-	    {
-		out[bi]|= cell[j]->bit[z] << (bn - m);
-		bn-= m;
-		if (bn == 0)
-		{
-		    out[++bi]= 0;
-		    bn= _bit_intsiz;
-		}
-	    }
+            if (m > bn)
+            {
+                out[bi]|= cell[j]->bit[z] >> (m - bn);
+                m-= bn;
+                out[++bi]= 0;
+                bn= _bit_intsiz;
+            }
+            if (m > 0 && m <= bn)
+            {
+                out[bi]|= cell[j]->bit[z] << (bn - m);
+                bn-= m;
+                if (bn == 0)
+                {
+                    out[++bi]= 0;
+                    bn= _bit_intsiz;
+                }
+            }
 #ifndef LIMITCOLORS
-	}
+        }
 #endif
     }
 }
@@ -566,36 +566,37 @@ void uncompress_line(bit_type *in, int ncell, int ncolor, bit_type *out)
     bit_type *b;
     int bi= 0;
     int bn= _bit_intsiz;
-
+    
     for (i= 0; i < ncell; i++)
     {
-	b= colbit(i);
-	for (z= 0; z < fbit_size - 1; z++)
-	{
-	    if (bn == _bit_intsiz)
-	    {
-		b[z]= in[bi];
-		bi++;
-	    }
-	    else
-	    {
-		b[z]= in[bi] << (_bit_intsiz - bn);
-		bi++;
-		b[z]|= in[bi] >> bn;
-	    }
-	}
-	if (ncolor <= bn)
-	{
-	    b[z]= (in[bi] >> (bn - ncolor)) & bit_zeroone(ncolor);
-	    bn-= ncolor;
-	}
-	else
-	{
-	    b[z]= (((in[bi]   << (ncolor - bn)) |
-		       (in[++bi] >> (_bit_intsiz - ncolor + bn)))
-              & bit_zeroone(ncolor));
-	    bn+= _bit_intsiz - ncolor;
-	}
+        b= colbit(i);
+        for (z= 0; z < fbit_size - 1; z++)
+        {
+            if (bn == _bit_intsiz)
+            {
+                b[z]= in[bi];
+                bi++;
+            }
+            else
+            {
+                b[z]= in[bi] << (_bit_intsiz - bn);
+                bi++;
+                b[z]|= in[bi] >> bn;
+            }
+        }
+        if (ncolor <= bn)
+        {
+            b[z]= (in[bi] >> (bn - ncolor)) & bit_zeroone(ncolor);
+            bn-= ncolor;
+        }
+        else
+        {
+            bit_type b1 = (in[bi] << (ncolor - bn)) ? 1 : 0;
+            bit_type b2 = (in[++bi] >> (_bit_intsiz - ncolor + bn)) ? 1 : 0;
+            
+            b[z] = (b1 | b2) & bit_zeroone(ncolor);
+            bn  += _bit_intsiz - ncolor;
+        }
     }
 }
 
@@ -606,36 +607,37 @@ void rev_uncompress_line(bit_type *in, int ncell, int ncolor, bit_type *out)
     bit_type *b;
     int bi= 0;
     int bn= _bit_intsiz;
-
+    
     for (i= ncell-1; i >= 0; i--)
     {
-	b= colbit(i);
-	for (z= 0; z < fbit_size - 1; z++)
-	{
-	    if (bn == _bit_intsiz)
-	    {
-		b[z]= in[bi];
-		bi++;
-	    }
-	    else
-	    {
-		b[z]= in[bi] << (_bit_intsiz - bn);
-		bi++;
-		b[z]|= in[bi] >> bn;
-	    }
-	}
-	if (ncolor <= bn)
-	{
-	    b[z]= (in[bi] >> (bn - ncolor)) & bit_zeroone(ncolor);
-	    bn-= ncolor;
-	}
-	else
-	{
-	    b[z]= (((in[bi] << (ncolor - bn)) |
-		        (in[++bi] >> (_bit_intsiz - ncolor + bn)))
-               & bit_zeroone(ncolor));
-	    bn+= _bit_intsiz - ncolor;
-	}
+        b= colbit(i);
+        for (z= 0; z < fbit_size - 1; z++)
+        {
+            if (bn == _bit_intsiz)
+            {
+                b[z]= in[bi];
+                bi++;
+            }
+            else
+            {
+                b[z]= in[bi] << (_bit_intsiz - bn);
+                bi++;
+                b[z]|= in[bi] >> bn;
+            }
+        }
+        if (ncolor <= bn)
+        {
+            b[z]= (in[bi] >> (bn - ncolor)) & bit_zeroone(ncolor);
+            bn-= ncolor;
+        }
+        else
+        {
+            bit_type b1 = (in[bi] << (ncolor - bn)) ? 1 : 0;
+            bit_type b2 = (in[++bi] >> (_bit_intsiz - ncolor + bn)) ? 1 : 0;
+            
+            b[z] = (b1 | b2) & bit_zeroone(ncolor);
+            bn  += _bit_intsiz - ncolor;
+        }
     }
 }
 
@@ -644,16 +646,16 @@ void dump_comp(bit_type *c, int ncell, int ncolor)
 {
     int i, j;
     int bi= 0, bn= _bit_intsiz;
-
+    
     for (i= 0; i < ncell; i++)
     {
-	putchar('(');
-	for (j= 0; j < ncolor; j++)
-	{
-	    if (bn-- == 0) {bi++; bn= _bit_intsiz;}
-	    putchar(bit_test(c+bi,bn) ? '1':'0');
-	}
-	putchar(')');
+        putchar('(');
+        for (j= 0; j < ncolor; j++)
+        {
+            if (bn-- == 0) {bi++; bn= _bit_intsiz;}
+            putchar(bit_test(c+bi,bn) ? '1':'0');
+        }
+        putchar(')');
     }
     putchar('\n');
 }
