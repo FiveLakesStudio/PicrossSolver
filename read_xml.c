@@ -331,8 +331,8 @@ void parse_xml_puzzle(xmlNode *root, Puzzle *puz)
         }
         else if (!strcasecmp((char *)node->name,"id"))
         {
-            if (puz->id != NULL) free(puz->id);
-            puz->id = ((char *)xmlNodeGetContent(node));
+            if (puz->puzzleid != NULL) free(puz->puzzleid);
+            puz->puzzleid = ((char *)xmlNodeGetContent(node));
         }
         else if (!strcasecmp((char *)node->name,"color"))
         {

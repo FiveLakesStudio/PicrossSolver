@@ -39,7 +39,7 @@ void free_puzzle(Puzzle *puz)
     SolutionList *sl, *nsl;
     
     safefree(puz->source);
-    safefree(puz->id);
+    safefree(puz->puzzleid);
     safefree(puz->title);
     safefree(puz->seriestitle);
     safefree(puz->author);

@@ -223,7 +223,7 @@ typedef struct {
     line_t n[3];	/* Length of the clue[] arrays */
     ColorDef *color;	/* Array of color definitions */
     char *source;
-    char *id;
+    char *puzzleid;
     char *title;
     char *seriestitle;
     char *author;

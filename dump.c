@@ -177,7 +177,7 @@ void dump_puzzle(FILE *fp, Puzzle *puz)
     fprintf(fp, "SOURCE: %s\n",
     	puz->source ? puz->source : "UNKNOWN");
     fprintf(fp, "ID: %s\n",
-    	puz->id ? puz->id : "UNKNOWN");
+    	puz->puzzleid ? puz->puzzleid : "UNKNOWN");
     fprintf(fp, "SERIES TITLE: %s\n",
     	puz->seriestitle ? puz->seriestitle : "UNKNOWN");
     fprintf(fp, "TITLE: %s\n",
