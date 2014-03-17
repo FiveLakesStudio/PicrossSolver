@@ -139,7 +139,7 @@ void resetPicrossSolverGlobals()
             return SOLVER_STATUS_ERROR;
         
         // Parse the C string into an xmlDoc so we can load the puzzle
-        xmlDoc *xmlDoc = xmlReadMemory(puzzleCStr, strlen(puzzleCStr), "picrosshd.xml", NULL, XML_PARSE_DTDLOAD | XML_PARSE_NOBLANKS);
+        xmlDoc *xmlDoc = xmlReadMemory(puzzleCStr, (int)strlen(puzzleCStr), "picrosshd.xml", NULL, XML_PARSE_DTDLOAD | XML_PARSE_NOBLANKS);
         if( xmlDoc != NULL )
         {
             puz = load_xml_puzzle_from_xmlDoc( xmlDoc, 1 );  // 1 is first puzzle in the puzzleset

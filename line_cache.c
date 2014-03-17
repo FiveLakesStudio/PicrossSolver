@@ -306,8 +306,8 @@ int hash_find(LineHash *hash, line_t clid, bit_type *line)
     int i,j;
     HashElem *e;
     bit_type v= hash_index(clid, line, hash->len);
-    int index= v % hash->nslots;
-    int offset= (v % (hash->nslots - 2)) + 1;
+    int index=  (int)(v % hash->nslots);
+    int offset= (int)(v % (hash->nslots - 2)) + 1;
     
     if (VH) printf("H: hash search - index=%d offset=%d\n", index, offset);
     cache_req++;
