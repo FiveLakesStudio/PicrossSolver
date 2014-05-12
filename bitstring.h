@@ -121,7 +121,7 @@ extern int fbit_size;
 	 */
 #ifdef LIMITCOLORS
 #define bit_test(Name,N) \
-	(*(Name) & _bit_mask(N))
+	((*(Name)) & _bit_mask(N))
 #else
 #define	bit_test(Name, N) \
 	((Name)[_bit_intn(N)] & _bit_mask(N))
