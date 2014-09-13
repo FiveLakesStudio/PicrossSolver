@@ -103,7 +103,7 @@ int try_everything(Puzzle *puz, Solution *sol, int check)
     Cell *cell;
     bit_type *realbit= (bit_type *) malloc(fbit_size * sizeof(bit_type));
     byte *rowpad, **colpad, *pad;
-    Hist *h;
+    Hist *h = NULL;
 
     exh_runs++;
 

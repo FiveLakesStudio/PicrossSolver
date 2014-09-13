@@ -27,7 +27,7 @@
 void measure_xml_solution(Puzzle *puz, Solution *sol, char *p)
 {
     int inrow, inbrace;
-    line_t r, c, c0;
+    line_t r=0, c=0, c0=0;
     char *q;
     
     if (puz->type == PT_TRID)

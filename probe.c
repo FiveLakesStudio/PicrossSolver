@@ -285,8 +285,8 @@ void add_goodcell(Puzzle *puz, Solution *sol, line_t i, line_t j)
 int probe(Puzzle *puz, Solution *sol,
           line_t *besti, line_t *bestj, color_t *bestc)
 {
-    line_t i, j, k;
-    int bestsrc;
+    line_t i=0, j=0, k=0;
+    int bestsrc = 0;
     //color_t c;
     Cell *cell;
     int rc, neigh;

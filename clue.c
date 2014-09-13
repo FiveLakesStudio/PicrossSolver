@@ -42,7 +42,7 @@ void make_clues(Puzzle *puz, Solution *sol)
     line_t i, j;
     color_t c;
     color_t color, newcolor;
-    line_t count;
+    line_t count = 0;
 
     if (puz->type != PT_GRID)
     	fail("Don't know how to generate clues for non-grid puzzles\n");

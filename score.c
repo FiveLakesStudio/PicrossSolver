@@ -231,7 +231,7 @@ color_t pick_color_min(Puzzle *puz, Solution *sol, Cell *cell)
 
 color_t pick_color_rand(Puzzle *puz, Solution *sol, Cell *cell)
 {
-    color_t c, bestc, n= 0;
+    color_t c, bestc=0, n= 0;
     
     for(c= 0; c < puz->ncolor; c++)
         if (may_be(cell,c))
@@ -252,7 +252,7 @@ color_t pick_color_rand(Puzzle *puz, Solution *sol, Cell *cell)
 
 color_t pick_color_contrast(Puzzle *puz, Solution *sol, Cell *cell)
 {
-    color_t c, bestc, n, bestn= -1;
+    color_t c, bestc=0, n, bestn= -1;
     line_t i= cell->line[0];
     line_t j= cell->line[1];
     
@@ -305,7 +305,7 @@ color_t pick_color_contrast(Puzzle *puz, Solution *sol, Cell *cell)
 
 color_t pick_color_prob(Puzzle *puz, Solution *sol, Cell *cell)
 {
-    color_t c, bestc;
+    color_t c, bestc = 0;
     line_t n, bestn= -9999;
     int k;
     
@@ -422,10 +422,10 @@ void bookkeeping_off()
 Cell *pick_a_cell(Puzzle *puz, Solution *sol)
 {
     line_t i, j;
-    float score1, minscore1;
-    float score2=0, minscore2;
+    float score1, minscore1 = 0.0;
+    float score2=0, minscore2 = 0.0;
     int first= 1;
-    Cell *cell, *favcell;
+    Cell *cell, *favcell = NULL;
     
     if (puz->type != PT_GRID)
     	fail("pick_a_cell() only works for grid puzzles");
@@ -484,7 +484,7 @@ Cell *pick_a_cell(Puzzle *puz, Solution *sol)
 void solved_a_cell(Puzzle *puz, Cell *cell, int way)
 {
     int k;
-    color_t c;
+    color_t c = '\0';
     
     /* Update our master count of number of solved cells */
     puz->nsolved+= way;

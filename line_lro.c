@@ -915,8 +915,8 @@ line_t *left_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
 
 line_t *right_solve(Puzzle *puz, Solution *sol, dir_t k, line_t i, int savepos)
 {
-    line_t b,j;
-    color_t currcolor, nextcolor;
+    line_t b=0,j=0;
+    color_t currcolor=0, nextcolor=0;
     int backtracking, state;
     Clue *clue= &puz->clue[k][i];
     line_t ncell= clue->linelen;
